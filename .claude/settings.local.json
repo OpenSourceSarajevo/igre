@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(bash -c \"source ~/.nvm/nvm.sh && nvm use 20 && npm create vite@latest\")",
+      "Bash(bash -c \"source ~/.nvm/nvm.sh && nvm use 20 && npm install\")"
+    ]
+  }
+}

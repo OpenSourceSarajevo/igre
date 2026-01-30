@@ -1,0 +1,37 @@
+.game-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.game-header h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #1f2937;
+}
+
+.game-header p {
+  font-size: 18px;
+  color: #6b7280;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .game-container {
+    padding: 16px;
+  }
+
+  .game-header h1 {
+    font-size: 36px;
+  }
+
+  .game-header p {
+    font-size: 16px;
+  }
+}

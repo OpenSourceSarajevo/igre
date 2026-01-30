@@ -1,0 +1,52 @@
+.word-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.word-button {
+  padding: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #e5e7eb;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #1f2937;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.word-button:hover:not(:disabled) {
+  background-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.word-button.selected {
+  background-color: #374151;
+  color: white;
+  border-color: #1f2937;
+}
+
+.word-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+  .word-grid {
+    gap: 8px;
+  }
+
+  .word-button {
+    padding: 15px;
+    font-size: 14px;
+    min-height: 60px;
+  }
+}
