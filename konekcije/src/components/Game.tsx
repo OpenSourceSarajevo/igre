@@ -8,6 +8,7 @@ import { CategoryDisplay } from './CategoryDisplay';
 import { GameControls } from './GameControls';
 import { GameStatus } from './GameStatus';
 import { DevControls } from './DevControls';
+import { Footer } from './Footer';
 import './Game.css';
 
 const MAX_MISTAKES = 4;
@@ -193,6 +194,8 @@ export function Game() {
       {(gameStatus !== 'playing' || isCompleted) && (
         <CategoryDisplay categories={foundCategories} />
       )}
+
+      <Footer />
     </div>
   );
 }
