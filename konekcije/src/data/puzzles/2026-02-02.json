@@ -1,0 +1,30 @@
+{
+  "id": 3,
+  "date": "2026-02-02",
+  "categories": [
+    {
+      "name": "Uloge Jasona Stathama",
+      "words": ["Pčelar", "Mehaničar", "Šprijun", "Transporter"],
+      "difficulty": 1,
+      "color": "#ffd6a5"
+    },
+    {
+      "name": "Gradovi po kojima su nazvane ulice i trgovi u Sarajevu",
+      "words": ["Barselona", "Zagreb", "Gradačac", "Cazin"],
+      "difficulty": 2,
+      "color": "#d8b4fe"
+    },
+    {
+      "name": "Gradovi u kojima je igrao Mirza Delibašić",
+      "words": ["Kazerta", "Madrid", "Sarajevo", "Tuzla"],
+      "difficulty": 3,
+      "color": "#a8dadc"
+    },
+    {
+      "name": "Životinje sa dodatkom na kraju",
+      "words": ["Ribanje", "Pasti", "Tvorevina", "Kravata"],
+      "difficulty": 4,
+      "color": " #b8e6b8"
+    }
+  ]
+}
