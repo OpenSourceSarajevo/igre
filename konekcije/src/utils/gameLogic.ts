@@ -24,6 +24,22 @@ export function checkGuess(
   return null;
 }
 
+export function isOneAway(
+  selectedWords: string[],
+  categories: Category[]
+): boolean {
+  for (const category of categories) {
+    const matchCount = selectedWords.filter(word =>
+      category.words.includes(word)
+    ).length;
+
+    if (matchCount === 3) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function isGameWon(foundCategories: Category[], totalCategories: number): boolean {
   return foundCategories.length === totalCategories;
 }

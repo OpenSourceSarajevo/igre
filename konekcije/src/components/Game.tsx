@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { Category, GameStatus as GameStatusType, DailyPuzzle } from '../types/game';
-import { shuffleArray, checkGuess, isGameWon, isGameLost } from '../utils/gameLogic';
+import { shuffleArray, checkGuess, isGameWon, isGameLost, isOneAway } from '../utils/gameLogic';
 import { getTodaysPuzzle } from '../utils/puzzleUtils';
 import { hasCompletedToday, saveCompletion, getCompletion } from '../utils/storageUtils';
 import { WordGrid } from './WordGrid';
@@ -23,6 +23,7 @@ export function Game() {
   const [remainingWords, setRemainingWords] = useState<string[]>([]);
   const [mistakes, setMistakes] = useState(0);
   const [gameStatus, setGameStatus] = useState<GameStatusType>('playing');
+  const [feedbackMessage, setFeedbackMessage] = useState<string>('');
 
   const loadPuzzle = useCallback(async () => {
     setIsLoading(true);
@@ -98,6 +99,7 @@ export function Game() {
         remainingWords.filter((word) => !matchedCategory.words.includes(word))
       );
       setSelectedWords([]);
+      setFeedbackMessage('');
 
       if (isGameWon(newFoundCategories, currentPuzzle.categories.length)) {
         setGameStatus('won');
@@ -105,6 +107,14 @@ export function Game() {
         setIsCompleted(true);
       }
     } else {
+      // Check if the user is one away
+      if (isOneAway(selectedWords, remainingCategories)) {
+        setFeedbackMessage('Fali jedna...');
+        setTimeout(() => setFeedbackMessage(''), 2000);
+      } else {
+        setFeedbackMessage('');
+      }
+
       const newMistakes = mistakes + 1;
       setMistakes(newMistakes);
       setSelectedWords([]);
@@ -168,6 +178,12 @@ export function Game() {
         gameStatus={gameStatus}
         onNewGame={initializeGame}
       />
+
+      {feedbackMessage && (
+        <div className="feedback-message">
+          <p>{feedbackMessage}</p>
+        </div>
+      )}
 
       {gameStatus === 'playing' && !isCompleted && (
         <>
