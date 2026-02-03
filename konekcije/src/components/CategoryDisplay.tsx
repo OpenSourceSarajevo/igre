@@ -1,6 +1,6 @@
 import type { Category } from '../types/game';
 import './CategoryDisplay.css';
-
+import { difficultyColors } from '../utils/colors';
 interface CategoryDisplayProps {
   categories: Category[];
 }
@@ -14,7 +14,9 @@ export function CategoryDisplay({ categories }: CategoryDisplayProps) {
         <div
           key={index}
           className="category-card"
-          style={{ backgroundColor: category.color }}
+          style={{
+            backgroundColor: difficultyColors[category.difficulty],
+          }}
         >
           <h3 className="category-name">{category.name}</h3>
           <p className="category-words">{category.words.join(', ')}</p>

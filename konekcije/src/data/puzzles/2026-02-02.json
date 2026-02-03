@@ -5,26 +5,22 @@
     {
       "name": "Uloge Jasona Stathama",
       "words": ["Pčelar", "Mehaničar", "Špijun", "Transporter"],
-      "difficulty": 1,
-      "color": "#ffd6a5"
+      "difficulty": 1
     },
     {
       "name": "Gradovi po kojima su nazvane ulice i trgovi u Sarajevu",
       "words": ["Barselona", "Zagreb", "Gradačac", "Cazin"],
-      "difficulty": 2,
-      "color": "#d8b4fe"
+      "difficulty": 2
     },
     {
       "name": "Gradovi u kojima je igrao Mirza Delibašić",
       "words": ["Kazerta", "Madrid", "Sarajevo", "Tuzla"],
-      "difficulty": 3,
-      "color": "#a8dadc"
+      "difficulty": 3
     },
     {
       "name": "Životinje sa dodatkom na kraju",
       "words": ["Ribanje", "Pasti", "Tvorevina", "Kravata"],
-      "difficulty": 4,
-      "color": " #b8e6b8"
+      "difficulty": 4
     }
   ]
 }
