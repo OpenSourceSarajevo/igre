@@ -1,0 +1,30 @@
+{
+  "id": 4,
+  "date": "2026-02-04",
+  "categories": [
+    {
+      "name": "Stvari koje se mogu izvući",
+      "words": ["Pouka", "Korist", "Deblji kraj", "Živa glava"],
+      "difficulty": 2,
+      "color": "#d8b4fe"
+    },
+    {   
+      "name": "Horoskopski znakovi + dodatna slova",
+      "words": ["Rakija", "Lavanda", "Ribar", "Vaganje"],
+      "difficulty": 3,
+      "color": "#a8dadc"
+    },
+    {
+      "name": "Ilidža",
+      "words": ["Terminal", "Fijaker", "Golub", "Labud"],
+      "difficulty": 1,
+      "color": "#ffd6a5"
+    },
+    {
+      "name": "Stvari koje imaju zube",
+      "words": ["Pila", "Češalj", "Grablje", "Zupčanik"],
+      "difficulty": 4,
+      "color": " #b8e6b8"
+    }
+  ]
+}
