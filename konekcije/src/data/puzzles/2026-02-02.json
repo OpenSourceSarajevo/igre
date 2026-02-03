@@ -1,5 +1,10 @@
 {
-  "id": 3,
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
   "date": "2026-02-02",
   "categories": [
     {
