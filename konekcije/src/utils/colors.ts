@@ -1,6 +1,6 @@
 export const difficultyColors: Record<number, string> = {
-  1: "#ffd6a5", 
-  2: "#d8b4fe",
-  3: "#a8dadc",
-  4: "#b8e6b8"   
+  1: "#f9df6d",
+  2: "#a0c35a",
+  3: "#b0c4ef",
+  4: "#ba81c5",
 };
