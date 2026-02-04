@@ -1,0 +1,27 @@
+.main-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  background-color: transparent;
+}
+
+.theme-toggle-btn {
+  background-color: var(--tile-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.theme-toggle-btn:hover {
+  filter: brightness(0.9);
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}

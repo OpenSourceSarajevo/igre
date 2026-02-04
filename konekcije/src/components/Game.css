@@ -13,12 +13,12 @@
   font-size: 48px;
   font-weight: 700;
   margin: 0 0 8px;
-  color: #1f2937;
+  color: var(--text-main);
 }
 
 .game-header p {
   font-size: 18px;
-  color: #6b7280;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -30,8 +30,8 @@
 
 .feedback-message p {
   display: inline-block;
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--feedback-bg);
+  color: var(--feedback-text);
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -41,26 +41,12 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 640px) {
-  .game-container {
-    padding: 16px;
-  }
-
-  .game-header h1 {
-    font-size: 36px;
-  }
-
-  .game-header p {
-    font-size: 16px;
-  }
+  .game-container { padding: 16px; }
+  .game-header h1 { font-size: 36px; }
+  .game-header p { font-size: 16px; }
 }
