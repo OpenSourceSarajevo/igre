@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-04",
+  "categories": [
+    {
+      "name": "Društvene igre sa kockicama",
+      "words": ["Jamb", "Monopol", "Rizik", "Tavla"],
+      "difficulty": 1
+    },
+    {
+      "name": "Bendovi sa uklonjenim brojem",
+      "words": ["Let", "Putnik", "Oktobar", "Generacija"],
+      "difficulty": 2
+    },
+    {
+      "name": "Bosanskohercegovački reperi",
+      "words": ["Buba", "Katarza", "Cunami", "Albino"],
+      "difficulty": 3
+    },
+    {
+      "name": "Navijačke skupine Balkana",
+      "words": ["Armada", "Manijaci", "Tornado", "Firma"],
+      "difficulty": 4
+    }
+  ]
+}
