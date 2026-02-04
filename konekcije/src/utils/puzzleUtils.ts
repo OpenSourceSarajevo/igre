@@ -15,7 +15,7 @@ function getAvailableDates(): string[] {
       return match ? match[1] : null;
     })
     .filter((date): date is string => date !== null)
-    .sort();
+    .sort((a, b) => b.localeCompare(a)); // newest date first
 }
 
 export async function getTodaysPuzzle(): Promise<DailyPuzzle | null> {

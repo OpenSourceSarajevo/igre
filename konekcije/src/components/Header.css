@@ -1,33 +1,108 @@
 .main-header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-main);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 60px;
+}
+
+.header-left, .header-right {
+  flex: 1;
+  display: flex;
+}
+
+.header-right {
   justify-content: flex-end;
-  padding: 1rem 1.5rem;
-  width: 100%;
-  background-color: transparent;
 }
 
-.theme-toggle-btn {
-  background-color: var(--tile-bg);
-  border: 1px solid var(--border-color);
+.header-center {
+  flex: 2;
+  text-align: center;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.icon-btn, .theme-toggle-btn, .close-btn {
+  background: none;
+  border: none;
   color: var(--text-main);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.theme-toggle-btn:hover {
-  filter: brightness(0.9);
-}
-
-.theme-toggle-btn:active {
-  transform: scale(0.95);
-}
-
-.theme-toggle-btn {
+  padding: 8px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.icon-btn:hover, .theme-toggle-btn:hover, .close-btn:hover {
+  background: rgba(128, 128, 128, 0.15);
+}
+
+/* Archive Drawer Styling */
+.archive-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.archive-drawer {
+  width: 100%;
+  max-width: 320px;
+  background: var(--bg-main);
+  height: 100vh;
+  padding: 1.5rem;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  animation: slideIn 0.3s ease-out;
+  border-right: 1px solid var(--border-color);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.drawer-header h2 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.archive-drawer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.archive-drawer::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 10px;
 }

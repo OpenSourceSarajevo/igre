@@ -1,21 +1,26 @@
 {
-  "id": 4,
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Faruk Kurtić"
+    }
+  ],
   "date": "2026-02-04",
   "categories": [
+    {
+      "name": "Ilidža",
+      "words": ["Terminal", "Fijaker", "Golub", "Labud"],
+      "difficulty": 1
+    },
     {
       "name": "Stvari koje se mogu izvući",
       "words": ["Pouka", "Korist", "Deblji kraj", "Živa glava"],
       "difficulty": 2
     },
-    {   
+    {
       "name": "Horoskopski znakovi + dodatna slova",
       "words": ["Rakija", "Lavanda", "Ribar", "Vaganje"],
       "difficulty": 3
-    },
-    {
-      "name": "Ilidža",
-      "words": ["Terminal", "Fijaker", "Golub", "Labud"],
-      "difficulty": 1
     },
     {
       "name": "Stvari koje imaju zube",
