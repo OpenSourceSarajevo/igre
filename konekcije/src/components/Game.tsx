@@ -21,7 +21,7 @@ interface GameProps {
 export function Game({ forcedDate }: GameProps) {
   const [currentPuzzle, setCurrentPuzzle] = useState<DailyPuzzle | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [, setIsCompleted] = useState(false);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [foundCategories, setFoundCategories] = useState<Category[]>([]);
   const [remainingWords, setRemainingWords] = useState<string[]>([]);
