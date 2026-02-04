@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Azy"
+    }
+  ],
+  "date": "2026-02-04",
+  "categories": [
+    {
+      "name": "Božanska oružja",
+      "words": ["Kaducej", "Trozubac", "Grom", "Egida"],
+      "difficulty": 1
+    },
+    {
+      "name": "Stvari koje nose ime junaka / mita",
+      "words": ["Kutija", "Konj", "Peta", "Lira"],
+      "difficulty": 2
+    },
+    {
+      "name": "Mistična bića sa dijelom zmije",
+      "words": ["Kimera", "Lamija", "Tifon", "Gorgone"],
+      "difficulty": 3
+    },
+    {
+      "name": "Mistična krilata bića",
+      "words": ["Sfinga", "Grifon", "Harpija", "Garuda"],
+      "difficulty": 4
+    }
+  ]
+}
