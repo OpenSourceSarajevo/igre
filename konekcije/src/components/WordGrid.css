@@ -10,12 +10,12 @@
   padding: 20px;
   font-size: 16px;
   font-weight: 600;
-  background-color: #e5e7eb;
+  background-color: var(--tile-bg);
   border: 2px solid transparent;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #1f2937;
+  color: var(--tile-text);
   min-height: 80px;
   display: flex;
   align-items: center;
@@ -24,14 +24,14 @@
 }
 
 .word-button:hover:not(:disabled) {
-  background-color: #d1d5db;
+  filter: brightness(0.9);
   transform: translateY(-2px);
 }
 
 .word-button.selected {
-  background-color: #374151;
-  color: white;
-  border-color: #1f2937;
+  background-color: var(--tile-selected);
+  color: var(--tile-selected-text);
+  border-color: var(--tile-selected);
 }
 
 .word-button:disabled {
@@ -40,10 +40,7 @@
 }
 
 @media (max-width: 640px) {
-  .word-grid {
-    gap: 8px;
-  }
-
+  .word-grid { gap: 8px; }
   .word-button {
     padding: 15px;
     font-size: 14px;

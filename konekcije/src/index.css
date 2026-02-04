@@ -9,21 +9,44 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: #1f2937;
-  background-color: #f9fafb;
+  --bg-main: #f9fafb;
+  --text-main: #1f2937;
+  --tile-bg: #efefe6;
+  --tile-text: #1f2937;
+  --tile-selected: #5a594e;
+  --tile-selected-text: #ffffff;
+  --border-color: #dcdcdc;
+
+  color: var(--text-main);
+  background-color: var(--bg-main);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+[data-theme='dark'] {
+  --bg-main: #121213;
+  --text-main: #ffffff;
+  --tile-bg: #3a3a3c;
+  --tile-text: #ffffff;
+  --tile-selected: #818384;
+  --tile-selected-text: #ffffff;
+  --border-color: #3a3a3c;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
 }
 
 button {
   font-family: inherit;
+  cursor: pointer;
 }
