@@ -25,3 +25,9 @@
 .theme-toggle-btn:active {
   transform: scale(0.95);
 }
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

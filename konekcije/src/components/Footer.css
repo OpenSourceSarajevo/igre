@@ -1,32 +1,34 @@
 .footer {
-  margin-top: 3rem;
-  padding: 1.5rem 1rem;
-  border-top: 1px solid #e0e0e0;
-  background-color: #fafafa;
+  margin-top: 4rem;
+  padding: 2rem 1rem;
+  border-top: 1px solid var(--border-color);
+  background-color: transparent;
 }
 
 .footer-content {
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
 .footer-content p {
-  margin: 0.5rem 0;
+  margin: 0.4rem 0;
+  letter-spacing: 0.02em;
 }
 
 .footer-content a {
-  color: #5b21b6;
+  color: var(--text-main);
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
 }
 
 .footer-content a:hover {
-  color: #7c3aed;
-  text-decoration: underline;
+  border-bottom: 1px solid var(--text-main);
+  opacity: 0.8;
 }
 
 .footer-links {
@@ -34,19 +36,25 @@
   gap: 1.5rem;
   justify-content: center;
   align-items: center;
+  margin-top: 1rem;
+  opacity: 0.7;
 }
 
-@media (max-width: 600px) {
+.footer-links a {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 640px) {
   .footer {
-    margin-top: 2rem;
-    padding: 1rem 0.5rem;
-  }
-
-  .footer-content {
-    font-size: 0.85rem;
-  }
-
-  .footer-links {
-    gap: 1rem;
+    margin-top: 2.5rem;
+    padding: 1.5rem 1rem;
   }
 }
