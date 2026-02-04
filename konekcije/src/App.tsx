@@ -13,6 +13,9 @@ function App() {
       <Header onSelectDate={setSelectedDate} currentDate={selectedDate} />
       <main>
         <Game key={selectedDate} forcedDate={selectedDate} />
+      <Header />
+      <main>
+        <Game />
       </main>
       <Analytics />
     </div>
