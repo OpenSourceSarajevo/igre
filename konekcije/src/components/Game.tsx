@@ -18,7 +18,6 @@ interface GameProps {
   forcedDate?: string;
 }
 
-// Destructured forcedDate from props
 export function Game({ forcedDate }: GameProps) {
   const [currentPuzzle, setCurrentPuzzle] = useState<DailyPuzzle | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +49,6 @@ export function Game({ forcedDate }: GameProps) {
         setSelectedWords([]);
         setRemainingWords([]);
       } else {
-        // Initialize a fresh game
         const allWords = puzzle.categories.flatMap((cat) => cat.words);
         setIsCompleted(false);
         setRemainingWords(shuffleArray(allWords));
