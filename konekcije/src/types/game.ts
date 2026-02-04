@@ -4,8 +4,13 @@ export interface Category {
   difficulty: 1 | 2 | 3 | 4;
 }
 
+export interface Author {
+  name: string;
+}
+
 export interface Puzzle {
   id: number;
+  authors?: Author[];
   categories: Category[];
 }
 

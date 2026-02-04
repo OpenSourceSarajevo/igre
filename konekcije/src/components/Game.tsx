@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { Category, GameStatus as GameStatusType, DailyPuzzle } from '../types/game';
 import { shuffleArray, checkGuess, isGameWon, isGameLost, isOneAway } from '../utils/gameLogic';
-import { getTodaysPuzzle } from '../utils/puzzleUtils';
-import { hasCompletedToday, saveCompletion, getCompletion } from '../utils/storageUtils';
+import { getTodaysPuzzle, getPuzzleByDate } from '../utils/puzzleUtils';
+import { saveCompletion, getCompletion } from '../utils/storageUtils';
 import { WordGrid } from './WordGrid';
 import { CategoryDisplay } from './CategoryDisplay';
 import { GameControls } from './GameControls';
@@ -14,10 +14,14 @@ import './Game.css';
 const MAX_MISTAKES = 4;
 const MAX_SELECTIONS = 4;
 
-export function Game() {
+interface GameProps {
+  forcedDate?: string;
+}
+
+export function Game({ forcedDate }: GameProps) {
   const [currentPuzzle, setCurrentPuzzle] = useState<DailyPuzzle | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [, setIsCompleted] = useState(false);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [foundCategories, setFoundCategories] = useState<Category[]>([]);
   const [remainingWords, setRemainingWords] = useState<string[]>([]);
@@ -27,36 +31,36 @@ export function Game() {
 
   const loadPuzzle = useCallback(async () => {
     setIsLoading(true);
-    const puzzle = await getTodaysPuzzle();
+  
+    const puzzle = forcedDate 
+      ? await getPuzzleByDate(forcedDate) 
+      : await getTodaysPuzzle();
+
     setCurrentPuzzle(puzzle);
 
     if (puzzle) {
-      const completed = hasCompletedToday(puzzle.date);
-      setIsCompleted(completed);
-
-      if (!completed) {
-        // Initialize game with shuffled words
+      const completion = getCompletion(puzzle.date);
+      
+      if (completion) {
+        setIsCompleted(true);
+        setGameStatus(completion.status);
+        setMistakes(completion.attempts);
+        setFoundCategories(puzzle.categories);
+        setSelectedWords([]);
+        setRemainingWords([]);
+      } else {
         const allWords = puzzle.categories.flatMap((cat) => cat.words);
+        setIsCompleted(false);
         setRemainingWords(shuffleArray(allWords));
         setSelectedWords([]);
         setFoundCategories([]);
         setMistakes(0);
         setGameStatus('playing');
-      } else {
-        // If already completed, show the solution
-        const completion = getCompletion(puzzle.date);
-        if (completion) {
-          setGameStatus(completion.status);
-          setMistakes(completion.attempts);
-          setFoundCategories(puzzle.categories);
-          setSelectedWords([]);
-          setRemainingWords([]);
-        }
       }
     }
 
     setIsLoading(false);
-  }, []);
+  }, [forcedDate]);
 
   useEffect(() => {
     loadPuzzle();
@@ -71,6 +75,7 @@ export function Game() {
     setFoundCategories([]);
     setMistakes(0);
     setGameStatus('playing');
+    setIsCompleted(false);
   }, [currentPuzzle]);
 
   const handleWordClick = (word: string) => {
@@ -87,7 +92,7 @@ export function Game() {
     if (!currentPuzzle) return;
 
     const remainingCategories = currentPuzzle.categories.filter(
-      (cat) => !foundCategories.includes(cat)
+      (cat) => !foundCategories.find(found => found.name === cat.name)
     );
 
     const matchedCategory = checkGuess(selectedWords, remainingCategories);
@@ -107,12 +112,9 @@ export function Game() {
         setIsCompleted(true);
       }
     } else {
-      // Check if the user is one away
       if (isOneAway(selectedWords, remainingCategories)) {
         setFeedbackMessage('Fali jedna...');
         setTimeout(() => setFeedbackMessage(''), 2000);
-      } else {
-        setFeedbackMessage('');
       }
 
       const newMistakes = mistakes + 1;
@@ -151,7 +153,7 @@ export function Game() {
       <div className="game-container">
         <header className="game-header">
           <h1>Konekcije</h1>
-          <p>Nema dostupnih zagonetki. Molimo pokušajte kasnije.</p>
+          <p>Nema dostupnih zagonetki.</p>
         </header>
       </div>
     );
@@ -164,13 +166,20 @@ export function Game() {
       <header className="game-header">
         <h1>Konekcije</h1>
         <p>Pronađi četiri grupe od po četiri povezane riječi</p>
+        <div className="puzzle-metadata">
+    {forcedDate && (
+      <p>
+        Zagonetka od: {forcedDate.split('-').reverse().join('/')}
+      </p>
+    )}
+    
+    {currentPuzzle?.authors && currentPuzzle.authors.length > 0 && (
+      <p className="author-text">
+        Autor: {currentPuzzle.authors.map(a => a.name).join(', ')}
+      </p>
+    )}
+  </div>
       </header>
-
-      {isCompleted && gameStatus === 'playing' && (
-        <div className="completion-banner">
-          <p>Već ste završili današnju zagonetku!</p>
-        </div>
-      )}
 
       <GameStatus
         mistakes={mistakes}
@@ -185,7 +194,7 @@ export function Game() {
         </div>
       )}
 
-      {gameStatus === 'playing' && !isCompleted && (
+      {gameStatus === 'playing' && (
         <>
           <CategoryDisplay categories={foundCategories} />
 
@@ -207,8 +216,8 @@ export function Game() {
         </>
       )}
 
-      {(gameStatus !== 'playing' || isCompleted) && (
-        <CategoryDisplay categories={foundCategories} />
+      {gameStatus !== 'playing' && (
+        <CategoryDisplay categories={currentPuzzle.categories} />
       )}
 
       <Footer />
