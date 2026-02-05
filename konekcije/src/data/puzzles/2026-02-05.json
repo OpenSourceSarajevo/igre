@@ -13,8 +13,8 @@
       "difficulty": 1
     },
     {
-      "name": "Stvari koje nose ime junaka / mita",
-      "words": ["Kutija", "Konj", "Peta", "Lira"],
+      "name": "Mistična krilata bića",
+      "words": ["Sfinga", "Grifon", "Harpija", "Garuda"],
       "difficulty": 2
     },
     {
@@ -23,8 +23,8 @@
       "difficulty": 3
     },
     {
-      "name": "Mistična krilata bića",
-      "words": ["Sfinga", "Grifon", "Harpija", "Garuda"],
+      "name": "Stvari koje nose ime junaka / mita",
+      "words": ["Kutija", "Konj", "Peta", "Lira"],
       "difficulty": 4
     }
   ]
