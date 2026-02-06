@@ -3,7 +3,7 @@ import { getTodayDateString } from './dateUtils';
 
 // Use Vite's import.meta.glob to get all puzzle files
 const puzzleModules = import.meta.glob<{ default: DailyPuzzle }>(
-  '../data/puzzles/*.json',
+  '../data/konekcije/puzzles/*.json',
   { eager: false }
 );
 
@@ -32,7 +32,7 @@ export async function getTodaysPuzzle(): Promise<DailyPuzzle | null> {
 }
 
 export async function getPuzzleByDate(date: string): Promise<DailyPuzzle | null> {
-  const path = `../data/puzzles/${date}.json`;
+  const path = `../data/konekcije/puzzles/${date}.json`;
   const loader = puzzleModules[path];
 
   if (!loader) {

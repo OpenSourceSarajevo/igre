@@ -6,14 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Konekcije** - A Connections-style word puzzle game in Bosnian language. Players find groups of four words that share a common category. The game has daily puzzles with four difficulty levels.
 
-The repository is a monorepo with the main project in the `konekcije/` directory.
+The repository is structured as a multi-game platform with the frontend in the `client/` directory, prepared for future API integration and additional games.
 
 ## Development Commands
 
-All commands should be run from the `konekcije/` directory:
+All commands should be run from the `client/` directory:
 
 ```bash
-cd konekcije
+cd client
 
 # Development
 npm run dev          # Start dev server with HMR
@@ -57,7 +57,9 @@ npm run preview      # Preview production build locally
 ### Directory Structure
 
 ```
-konekcije/src/
+client/src/
+├── config/
+│   └── gameConfig.ts   # Game configuration (name, branding)
 ├── components/          # React components
 │   ├── Game.tsx        # Main game logic and state
 │   ├── WordGrid.tsx    # 4x4 grid of words
@@ -116,7 +118,7 @@ Enable testing of future puzzles without waiting for the date:
 
 ```bash
 # 1. Create/edit .env file
-echo "VITE_DEV_MODE=true" > konekcije/.env
+echo "VITE_DEV_MODE=true" > client/.env
 
 # 2. Restart dev server
 npm run dev
@@ -134,7 +136,7 @@ VITE_DEV_MODE=false
 GitHub Actions workflow (`.github/workflows/ci.yml`):
 - Runs on push/PR to `main`
 - Tests Node 20.x and 22.x
-- Working directory: `./konekcije`
+- Working directory: `./client`
 - Steps: `npm ci` → `npm run build`
 - Uploads build artifacts (Node 20.x only)
 - Note: Linting is currently commented out
@@ -146,11 +148,20 @@ This is a **Bosnian language** game. All UI text and puzzle content should be in
 - Category names should reflect Bosnian culture and context
 - Word choices should be familiar to Bosnian speakers
 
+## Configuration
+
+**Game Configuration** (`src/config/gameConfig.ts`):
+- Centralized configuration for game name, branding, and settings
+- Uses environment variables for build-time configuration
+- `VITE_GAME_NAME`: Display name (default: "Konekcije")
+- `VITE_GAME_SLUG`: Game identifier (default: "konekcije")
+
 ## Storage & State
 
 **localStorage keys:**
-- `konekcije-completion-{date}`: Completion data per puzzle date
-- `konekcije-dev-date`: Dev mode selected date (if enabled)
+- `konekcije_completion_{date}`: Completion data per puzzle date
+- `konekcije_dev_date`: Dev mode selected date (if enabled)
+- Note: Keys maintain `konekcije_` prefix for backward compatibility
 
 **Completion data structure:**
 ```typescript

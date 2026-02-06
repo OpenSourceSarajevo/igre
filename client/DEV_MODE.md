@@ -96,7 +96,7 @@ nano .env
 ## File Structure
 
 ```
-konekcije/
+client/
 ├── .env                    # Your local dev settings (git-ignored)
 ├── .env.example            # Example environment variables
 ├── src/

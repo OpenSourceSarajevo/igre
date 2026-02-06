@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import type { GameStatus } from '../types/game'; // Import your type
+import { currentGame } from '../config/gameConfig';
 import './ResultsModal.css';
 
 interface ResultsModalProps {
@@ -25,7 +26,7 @@ export function ResultsModal({ history, date, status, onClose, onNewGame }: Resu
     const grid = history
       .map(row => row.map(level => getEmoji(level)).join(''))
       .join('\n');
-    const text = `Konekcije\nSlagalica: ${date.split('-').reverse().join('/')}\n${grid}`;
+    const text = `${currentGame.name}\nSlagalica: ${date.split('-').reverse().join('/')}\n${grid}`;
     navigator.clipboard.writeText(text);
     alert('Rezultat kopiran u međuspremnik!');
   };

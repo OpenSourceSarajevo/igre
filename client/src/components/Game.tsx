@@ -3,6 +3,7 @@ import type { Category, GameStatus as GameStatusType, DailyPuzzle } from '../typ
 import { shuffleArray, checkGuess, isGameWon, isGameLost, isOneAway } from '../utils/gameLogic';
 import { getTodaysPuzzle, getPuzzleByDate } from '../utils/puzzleUtils';
 import { saveCompletion, getCompletion } from '../utils/storageUtils';
+import { currentGame } from '../config/gameConfig';
 import { WordGrid } from './WordGrid';
 import { CategoryDisplay } from './CategoryDisplay';
 import { GameControls } from './GameControls';
@@ -130,16 +131,16 @@ export function Game({ forcedDate }: GameProps) {
     }
   };
 
-  if (isLoading) return <div className="game-container"><header className="game-header"><h1>Konekcije</h1><p>Učitavanje...</p></header></div>;
-  if (!currentPuzzle) return <div className="game-container"><header className="game-header"><h1>Konekcije</h1><p>Nema dostupnih zagonetki.</p></header></div>;
+  if (isLoading) return <div className="game-container"><header className="game-header"><h1>{currentGame.name}</h1><p>Učitavanje...</p></header></div>;
+  if (!currentPuzzle) return <div className="game-container"><header className="game-header"><h1>{currentGame.name}</h1><p>Nema dostupnih zagonetki.</p></header></div>;
 
   return (
     <div className="game-container">
       <DevControls onDateChange={loadPuzzle} />
 
       <header className="game-header">
-        <h1>Konekcije</h1>
-        <p>Pronađi četiri grupe od po četiri povezane riječi</p>
+        <h1>{currentGame.name}</h1>
+        <p>{currentGame.description}</p>
         <div className="puzzle-metadata">
           {forcedDate && <p className="archive-date-indicator">Zagonetka od: {forcedDate.split('-').reverse().join('/')}</p>}
           {currentPuzzle?.authors && (
