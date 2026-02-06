@@ -10,7 +10,8 @@ export function hasCompletedToday(date: string): boolean {
 export function saveCompletion(
   date: string,
   status: 'won' | 'lost',
-  attempts: number
+  attempts: number,
+  guessHistory: number[][] // Add this parameter
 ): void {
   const key = `${STORAGE_PREFIX}completed_${date}`;
   const data: CompletionData = {
@@ -19,6 +20,7 @@ export function saveCompletion(
     status,
     attempts,
     timestamp: new Date().toISOString(),
+    guessHistory,
   };
   localStorage.setItem(key, JSON.stringify(data));
 }

@@ -6,7 +6,7 @@ import { saveCompletion, getCompletion } from '../utils/storageUtils';
 import { WordGrid } from './WordGrid';
 import { CategoryDisplay } from './CategoryDisplay';
 import { GameControls } from './GameControls';
-import { GameStatus } from './GameStatus';
+import { ResultsModal } from './ResultsModal';
 import { DevControls } from './DevControls';
 import { Footer } from './Footer';
 import './Game.css';
@@ -21,44 +21,41 @@ interface GameProps {
 export function Game({ forcedDate }: GameProps) {
   const [currentPuzzle, setCurrentPuzzle] = useState<DailyPuzzle | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [, setIsCompleted] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [foundCategories, setFoundCategories] = useState<Category[]>([]);
   const [remainingWords, setRemainingWords] = useState<string[]>([]);
   const [mistakes, setMistakes] = useState(0);
   const [gameStatus, setGameStatus] = useState<GameStatusType>('playing');
   const [feedbackMessage, setFeedbackMessage] = useState<string>('');
+  const [guessHistory, setGuessHistory] = useState<number[][]>([]);
 
   const loadPuzzle = useCallback(async () => {
     setIsLoading(true);
-  
-    const puzzle = forcedDate 
-      ? await getPuzzleByDate(forcedDate) 
-      : await getTodaysPuzzle();
-
+    const puzzle = forcedDate ? await getPuzzleByDate(forcedDate) : await getTodaysPuzzle();
     setCurrentPuzzle(puzzle);
 
     if (puzzle) {
       const completion = getCompletion(puzzle.date);
-      
       if (completion) {
-        setIsCompleted(true);
         setGameStatus(completion.status);
         setMistakes(completion.attempts);
         setFoundCategories(puzzle.categories);
         setSelectedWords([]);
         setRemainingWords([]);
+        setGuessHistory(completion.guessHistory || []);
+        setShowResults(true); 
       } else {
         const allWords = puzzle.categories.flatMap((cat) => cat.words);
-        setIsCompleted(false);
         setRemainingWords(shuffleArray(allWords));
         setSelectedWords([]);
         setFoundCategories([]);
         setMistakes(0);
         setGameStatus('playing');
+        setGuessHistory([]);
+        setShowResults(false);
       }
     }
-
     setIsLoading(false);
   }, [forcedDate]);
 
@@ -68,28 +65,38 @@ export function Game({ forcedDate }: GameProps) {
 
   const initializeGame = useCallback(() => {
     if (!currentPuzzle) return;
-
     const allWords = currentPuzzle.categories.flatMap((cat) => cat.words);
     setRemainingWords(shuffleArray(allWords));
     setSelectedWords([]);
     setFoundCategories([]);
     setMistakes(0);
     setGameStatus('playing');
-    setIsCompleted(false);
+    setGuessHistory([]);
+    setShowResults(false);
   }, [currentPuzzle]);
 
   const handleWordClick = (word: string) => {
+    if (gameStatus !== 'playing') return;
     if (selectedWords.includes(word)) {
       setSelectedWords(selectedWords.filter((w) => w !== word));
-    } else {
-      if (selectedWords.length < MAX_SELECTIONS) {
-        setSelectedWords([...selectedWords, word]);
-      }
+    } else if (selectedWords.length < MAX_SELECTIONS) {
+      setSelectedWords([...selectedWords, word]);
     }
   };
 
+  const handleShuffle = () => setRemainingWords(shuffleArray([...remainingWords]));
+  const handleDeselectAll = () => setSelectedWords([]);
+
   const handleSubmit = () => {
-    if (!currentPuzzle) return;
+    if (!currentPuzzle || gameStatus !== 'playing') return;
+
+    const currentGuessLevels = selectedWords.map(word => {
+      const cat = currentPuzzle.categories.find(c => c.words.includes(word));
+      return cat ? cat.difficulty : 0;
+    });
+
+    const newHistory = [...guessHistory, currentGuessLevels];
+    setGuessHistory(newHistory);
 
     const remainingCategories = currentPuzzle.categories.filter(
       (cat) => !foundCategories.find(found => found.name === cat.name)
@@ -100,64 +107,31 @@ export function Game({ forcedDate }: GameProps) {
     if (matchedCategory) {
       const newFoundCategories = [...foundCategories, matchedCategory];
       setFoundCategories(newFoundCategories);
-      setRemainingWords(
-        remainingWords.filter((word) => !matchedCategory.words.includes(word))
-      );
+      setRemainingWords(remainingWords.filter((word) => !matchedCategory.words.includes(word)));
       setSelectedWords([]);
-      setFeedbackMessage('');
-
       if (isGameWon(newFoundCategories, currentPuzzle.categories.length)) {
         setGameStatus('won');
-        saveCompletion(currentPuzzle.date, 'won', mistakes);
-        setIsCompleted(true);
+        saveCompletion(currentPuzzle.date, 'won', mistakes, newHistory);
+        setTimeout(() => setShowResults(true), 800);
       }
     } else {
       if (isOneAway(selectedWords, remainingCategories)) {
         setFeedbackMessage('Fali jedna...');
         setTimeout(() => setFeedbackMessage(''), 2000);
       }
-
       const newMistakes = mistakes + 1;
       setMistakes(newMistakes);
       setSelectedWords([]);
-
       if (isGameLost(newMistakes, MAX_MISTAKES)) {
         setGameStatus('lost');
-        saveCompletion(currentPuzzle.date, 'lost', newMistakes);
-        setIsCompleted(true);
+        saveCompletion(currentPuzzle.date, 'lost', newMistakes, newHistory);
+        setTimeout(() => setShowResults(true), 800);
       }
     }
   };
 
-  const handleShuffle = () => {
-    setRemainingWords(shuffleArray([...remainingWords]));
-  };
-
-  const handleDeselectAll = () => {
-    setSelectedWords([]);
-  };
-
-  if (isLoading) {
-    return (
-      <div className="game-container">
-        <header className="game-header">
-          <h1>Konekcije</h1>
-          <p>Učitavanje...</p>
-        </header>
-      </div>
-    );
-  }
-
-  if (!currentPuzzle) {
-    return (
-      <div className="game-container">
-        <header className="game-header">
-          <h1>Konekcije</h1>
-          <p>Nema dostupnih zagonetki.</p>
-        </header>
-      </div>
-    );
-  }
+  if (isLoading) return <div className="game-container"><header className="game-header"><h1>Konekcije</h1><p>Učitavanje...</p></header></div>;
+  if (!currentPuzzle) return <div className="game-container"><header className="game-header"><h1>Konekcije</h1><p>Nema dostupnih zagonetki.</p></header></div>;
 
   return (
     <div className="game-container">
@@ -167,59 +141,48 @@ export function Game({ forcedDate }: GameProps) {
         <h1>Konekcije</h1>
         <p>Pronađi četiri grupe od po četiri povezane riječi</p>
         <div className="puzzle-metadata">
-    {forcedDate && (
-      <p>
-        Zagonetka od: {forcedDate.split('-').reverse().join('/')}
-      </p>
-    )}
-    
-    {currentPuzzle?.authors && currentPuzzle.authors.length > 0 && (
-      <p className="author-text">
-        Autor: {currentPuzzle.authors.map(a => a.name).join(', ')}
-      </p>
-    )}
-  </div>
+          {forcedDate && <p className="archive-date-indicator">Zagonetka od: {forcedDate.split('-').reverse().join('/')}</p>}
+          {currentPuzzle?.authors && (
+            <p className="author-text">Autor: {currentPuzzle.authors.map(a => a.name).join(', ')}</p>
+          )}
+        </div>
       </header>
 
-      <GameStatus
-        mistakes={mistakes}
-        maxMistakes={MAX_MISTAKES}
-        gameStatus={gameStatus}
-        onNewGame={initializeGame}
-      />
-
-      {feedbackMessage && (
-        <div className="feedback-message">
-          <p>{feedbackMessage}</p>
-        </div>
-      )}
-
       {gameStatus === 'playing' && (
-        <>
-          <CategoryDisplay categories={foundCategories} />
-
-          <WordGrid
-            words={remainingWords}
-            selectedWords={selectedWords}
-            onWordClick={handleWordClick}
-            disabled={false}
-          />
-
-          <GameControls
-            onShuffle={handleShuffle}
-            onDeselectAll={handleDeselectAll}
-            onSubmit={handleSubmit}
-            canSubmit={selectedWords.length === MAX_SELECTIONS}
-            canDeselect={selectedWords.length > 0}
-            disabled={false}
-          />
-        </>
+        <div className="mistakes-counter">Preostali pokušaji: {MAX_MISTAKES - mistakes}</div>
       )}
 
-      {gameStatus !== 'playing' && (
-        <CategoryDisplay categories={currentPuzzle.categories} />
-      )}
+      {feedbackMessage && <div className="feedback-message"><p>{feedbackMessage}</p></div>}
 
+      <div className="game-content">
+        {/* Always show found categories */}
+        <CategoryDisplay categories={foundCategories} />
+
+        {gameStatus === 'playing' ? (
+          <>
+            <WordGrid words={remainingWords} selectedWords={selectedWords} onWordClick={handleWordClick} disabled={false} />
+            <GameControls onShuffle={handleShuffle} onDeselectAll={handleDeselectAll} onSubmit={handleSubmit} canSubmit={selectedWords.length === MAX_SELECTIONS} canDeselect={selectedWords.length > 0} disabled={false} />
+          </>
+        ) : (
+          <div className="post-game-view">
+             {/* Show remaining categories user didn't find */}
+             <CategoryDisplay categories={currentPuzzle.categories.filter(c => !foundCategories.find(f => f.name === c.name))} />
+             
+             <div className="end-game-buttons">
+                <button className="secondary-action-btn" onClick={() => setShowResults(true)}>
+                  Prikaži rezultate
+                </button>
+                <button className="primary-action-btn" onClick={initializeGame}>
+                  Igraj ponovo
+                </button>
+             </div>
+          </div>
+        )}
+      </div>
+
+      {showResults && (
+        <ResultsModal history={guessHistory} date={currentPuzzle.date} status={gameStatus} onClose={() => setShowResults(false)} onNewGame={initializeGame} />
+      )}
       <Footer />
     </div>
   );
