@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": ""
+    }
+  ],
+  "date": "0001-01-01",
+  "categories": [
+    {
+      "name": "",
+      "words": ["", "", "", ""],
+      "difficulty": 1
+    },
+    {
+      "name": "",
+      "words": ["", "", "", ""],
+      "difficulty": 2
+    },
+    {
+      "name": "",
+      "words": ["", "", "", ""],
+      "difficulty": 3
+    },
+    {
+      "name": "",
+      "words": ["", "", "", ""],
+      "difficulty": 4
+    }
+  ]
+}
