@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Dzenana"
+    }
+  ],
+  "date": "2026-02-07",
+  "categories": [
+    {
+      "name": "Zatvor",
+      "words": ["Ćelija", "Upravnik", "Tunel", "Rešetka"],
+      "difficulty": 1
+    },
+    {
+      "name": "Rijeke + dodatna slova",
+      "words": ["Taraba", "Savana", "Unapređenje", "Pivara"],
+      "difficulty": 2
+    },
+    {
+      "name": "Kesa za u goste",
+      "words": ["Kafa", "Sok", "Čokolada", "Kocka"],
+      "difficulty": 3
+    },
+    {
+      "name": "Posljednja ___",
+      "words": ["Kap", "Nada", "Prilika", "Stanica"],
+      "difficulty": 4
+    }
+  ]
+}
