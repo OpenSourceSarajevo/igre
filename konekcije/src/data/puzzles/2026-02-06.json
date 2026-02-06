@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Abdulah Đulović"
+    }
+  ],
+  "date": "2026-02-06",
+  "categories": [
+    {
+      "name": "Medicinsko osoblje",
+      "words": ["Sestra", "Babica", "Tehničar", "Stažista"],
+      "difficulty": 1
+    },
+    {
+      "name": "Biljke sa 'ljudskim' imenima",
+      "words": ["Nana", "Maćuhica", "Matičnjak", "Jela"],
+      "difficulty": 2
+    },
+    {
+      "name": "Nadimci bh. fudbalskih legendi",
+      "words": ["Baka", "Braco", "Škija", "Bola"],
+      "difficulty": 3
+    },
+    {
+      "name": "Titule i zvanja u historiji BiH",
+      "words": ["Djed", "Starac", "Strojnik", "Paša"],
+      "difficulty": 4
+    }
+  ]
+}
