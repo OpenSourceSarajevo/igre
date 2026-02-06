@@ -28,6 +28,7 @@ export interface CompletionData {
   status: 'won' | 'lost';
   attempts: number;
   timestamp: string;
+  guessHistory: number[][];
 }
 
 export type GameStatus = 'playing' | 'won' | 'lost';
