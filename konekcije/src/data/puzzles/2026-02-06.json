@@ -8,13 +8,13 @@
   "date": "2026-02-06",
   "categories": [
     {
-      "name": "Medicinsko osoblje",
-      "words": ["Sestra", "Babica", "Tehničar", "Stažista"],
+      "name": "Biljke",
+      "words": ["Nana", "Maćuhica", "Matičnjak", "Jela"],
       "difficulty": 1
     },
     {
-      "name": "Biljke sa 'ljudskim' imenima",
-      "words": ["Nana", "Maćuhica", "Matičnjak", "Jela"],
+      "name": "Medicinsko osoblje",
+      "words": ["Sestra", "Babica", "Tehničar", "Stažista"],
       "difficulty": 2
     },
     {
@@ -23,8 +23,8 @@
       "difficulty": 3
     },
     {
-      "name": "Titule i zvanja u historiji BiH",
-      "words": ["Djed", "Starac", "Strojnik", "Paša"],
+      "name": "Titule crkve bosanske",
+      "words": ["Djed", "Starac", "Strojnik", "Gost"],
       "difficulty": 4
     }
   ]
