@@ -1,11 +1,9 @@
+import type { Author } from '@/types/shared';
+
 export interface Category {
   name: string;
   words: string[];
   difficulty: 1 | 2 | 3 | 4;
-}
-
-export interface Author {
-  name: string;
 }
 
 export interface Puzzle {

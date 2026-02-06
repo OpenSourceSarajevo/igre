@@ -1,10 +1,10 @@
-import type { DailyPuzzle } from '../types/game';
-import { getTodayDateString } from './dateUtils';
+import type { DailyPuzzle } from "../types/game";
+import { getTodayDateString } from "@/utils/dateUtils";
 
 // Use Vite's import.meta.glob to get all puzzle files
 const puzzleModules = import.meta.glob<{ default: DailyPuzzle }>(
-  '../data/konekcije/puzzles/*.json',
-  { eager: false }
+  "../data/puzzles/*.json",
+  { eager: false },
 );
 
 // Extract dates from file paths
@@ -19,6 +19,7 @@ function getAvailableDates(): string[] {
 }
 
 export async function getTodaysPuzzle(): Promise<DailyPuzzle | null> {
+  // Check for dev mode date override
   const today = getTodayDateString();
 
   // Try to load today's puzzle
@@ -31,8 +32,10 @@ export async function getTodaysPuzzle(): Promise<DailyPuzzle | null> {
   return getMostRecentPuzzle(today);
 }
 
-export async function getPuzzleByDate(date: string): Promise<DailyPuzzle | null> {
-  const path = `../data/konekcije/puzzles/${date}.json`;
+export async function getPuzzleByDate(
+  date: string,
+): Promise<DailyPuzzle | null> {
+  const path = `../data/puzzles/${date}.json`;
   const loader = puzzleModules[path];
 
   if (!loader) {
@@ -48,7 +51,9 @@ export async function getPuzzleByDate(date: string): Promise<DailyPuzzle | null>
   }
 }
 
-async function getMostRecentPuzzle(beforeDate: string): Promise<DailyPuzzle | null> {
+async function getMostRecentPuzzle(
+  beforeDate: string,
+): Promise<DailyPuzzle | null> {
   const dates = getAvailableDates();
   const pastDates = dates.filter((date) => date < beforeDate);
 

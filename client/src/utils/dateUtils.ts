@@ -1,12 +1,4 @@
-import { getDevDate } from './devUtils';
-
 export function getTodayDateString(): string {
-  // Check for dev mode date override
-  const devDate = getDevDate();
-  if (devDate) {
-    return devDate;
-  }
-
   const today = new Date();
   return formatDate(today);
 }

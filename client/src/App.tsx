@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Game } from './components/Game';
+import { Game, Archive } from '@/games/connections';
 import { Header } from './components/Header';
 import { getTodayDateString } from './utils/dateUtils';
 import { Analytics } from '@vercel/analytics/react';
@@ -10,8 +10,12 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header onSelectDate={setSelectedDate} currentDate={selectedDate} />
-    
+      <Header
+        renderArchive={(props) => <Archive {...props} />}
+        onSelectDate={setSelectedDate}
+        currentDate={selectedDate}
+      />
+
       <main>
         <Game key={selectedDate} forcedDate={selectedDate} />
       </main>

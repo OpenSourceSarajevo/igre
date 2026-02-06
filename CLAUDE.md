@@ -39,7 +39,7 @@ npm run preview      # Preview production build locally
 ### Key Concepts
 
 **Puzzle Loading System:**
-- Puzzles are JSON files in `src/data/puzzles/` named by date (YYYY-MM-DD.json)
+- Puzzles are JSON files in `games/connections/data/puzzles/` named by date (YYYY-MM-DD.json)
 - Uses Vite's `import.meta.glob` for dynamic imports
 - Falls back to most recent puzzle if today's doesn't exist
 - Each puzzle has 4 categories with 4 words each
@@ -58,32 +58,44 @@ npm run preview      # Preview production build locally
 
 ```
 client/src/
+├── games/
+│   └── connections/          # Connections game (Konekcije)
+│       ├── components/       # Game-specific components
+│       │   ├── Game.tsx     # Main game logic and state
+│       │   ├── WordGrid.tsx
+│       │   ├── CategoryDisplay.tsx
+│       │   ├── ResultsModal.tsx
+│       │   ├── Archive.tsx
+│       │   ├── DevControls.tsx
+│       │   ├── GameControls.tsx
+│       │   └── [corresponding .css files]
+│       ├── utils/
+│       │   ├── gameLogic.ts     # Core game mechanics
+│       │   ├── puzzleUtils.ts   # Puzzle loading
+│       │   ├── storageUtils.ts  # localStorage persistence
+│       │   ├── devUtils.ts      # Dev mode utilities
+│       │   └── colors.ts        # Difficulty colors
+│       ├── types/
+│       │   └── game.ts          # Connections-specific types
+│       ├── data/
+│       │   └── puzzles/         # Daily puzzle JSON files
+│       │       ├── YYYY-MM-DD.json
+│       │       └── puzzle.schema.json
+│       └── index.ts             # Public API exports
+├── components/              # SHARED components
+│   ├── Header.tsx          # App header with theme toggle
+│   └── Footer.tsx          # App footer
 ├── config/
-│   └── gameConfig.ts   # Game configuration (name, branding)
-├── components/          # React components
-│   ├── Game.tsx        # Main game logic and state
-│   ├── WordGrid.tsx    # 4x4 grid of words
-│   ├── CategoryDisplay.tsx  # Shows found categories
-│   ├── ResultsModal.tsx     # End game modal
-│   ├── DevControls.tsx      # Dev mode date picker
-│   ├── Header.tsx
-│   ├── Footer.tsx
-│   └── Archive.tsx     # Historical puzzle browser
-├── data/
-│   └── puzzles/        # Daily puzzle JSON files
-│       ├── YYYY-MM-DD.json
-│       └── puzzle.schema.json
+│   └── gameConfig.ts       # Game configuration
 ├── types/
-│   └── game.ts         # TypeScript types
+│   └── shared.ts           # Shared type definitions
 ├── utils/
-│   ├── puzzleUtils.ts  # Puzzle loading logic
-│   ├── gameLogic.ts    # Core game mechanics
-│   ├── storageUtils.ts # localStorage persistence
-│   ├── dateUtils.ts    # Date formatting
-│   ├── devUtils.ts     # Dev mode utilities
-│   └── colors.ts       # Difficulty colors
-└── hooks/
-    └── useDarkMode.ts  # Dark mode toggle
+│   └── dateUtils.ts        # Date formatting utilities
+├── hooks/
+│   └── useDarkMode.ts      # Dark mode hook
+├── App.tsx                 # Main app component
+├── main.tsx               # App entry point
+└── index.css              # Global styles
 ```
 
 ## Creating Puzzles

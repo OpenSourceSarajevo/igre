@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
-import type { GameStatus } from '../types/game'; // Import your type
-import { currentGame } from '../config/gameConfig';
+import type { GameStatus } from '../types/game';
+import { currentGame } from '@/config/gameConfig';
 import './ResultsModal.css';
 
 interface ResultsModalProps {
