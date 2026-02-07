@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-08",
+  "categories": [
+    {
+      "name": "Zakon",
+      "words": ["Norma", "Član", "Kod", "Propis"],
+      "difficulty": 1
+    },
+    {
+      "name": "Kvizovi emitirani na HRT-u",
+      "words": ["Potjera", "Milijunaš", "Upitnik", "Šifra"],
+      "difficulty": 2
+    },
+    {
+      "name": "Šahovski gambit",
+      "words": ["Dama", "Kralj", "Škot", "Beč"],
+      "difficulty": 3
+    },
+    {
+      "name": "___ i drugi dio benda",
+      "words": ["Film", "Vi", "Sol", "Instruktori"],
+      "difficulty": 4
+    }
+  ]
+}
