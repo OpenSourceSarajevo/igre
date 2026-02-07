@@ -66,5 +66,6 @@ async function getMostRecentPuzzle(
 }
 
 export function getAllPuzzleDates(): string[] {
-  return getAvailableDates();
+  const today = getTodayDateString();
+  return getAvailableDates().filter((date) => date <= today);
 }
