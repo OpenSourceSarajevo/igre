@@ -31,25 +31,29 @@ npm run preview      # Preview production build locally
 ## Architecture Overview
 
 ### Tech Stack
+
 - **React 19** + **TypeScript** + **Vite**
 - State management: React hooks (useState, useCallback, useEffect)
-- Styling: CSS modules per component
+- Styling: **Tailwind CSS v4** with CSS custom properties for theming
 - Analytics: Vercel Analytics
 
 ### Key Concepts
 
 **Puzzle Loading System:**
+
 - Puzzles are JSON files in `games/connections/data/puzzles/` named by date (YYYY-MM-DD.json)
 - Uses Vite's `import.meta.glob` for dynamic imports
 - Falls back to most recent puzzle if today's doesn't exist
 - Each puzzle has 4 categories with 4 words each
 
 **Game State Management:**
+
 - Lives in `Game.tsx` component with local state
 - Completion data persisted to localStorage per date
 - Tracks: selected words, found categories, mistakes (max 4), game status
 
 **Difficulty System:**
+
 - Categories have difficulty levels 1-4
 - Each puzzle must have exactly one category of each difficulty
 - Colors mapped via `utils/colors.ts`
@@ -67,8 +71,7 @@ client/src/
 │       │   ├── ResultsModal.tsx
 │       │   ├── Archive.tsx
 │       │   ├── DevControls.tsx
-│       │   ├── GameControls.tsx
-│       │   └── [corresponding .css files]
+│       │   └── GameControls.tsx
 │       ├── utils/
 │       │   ├── gameLogic.ts     # Core game mechanics
 │       │   ├── puzzleUtils.ts   # Puzzle loading
@@ -112,13 +115,14 @@ Puzzles are JSON files in `src/data/puzzles/` following this schema:
       "name": "Category Name",
       "words": ["Word1", "Word2", "Word3", "Word4"],
       "difficulty": 1
-    },
+    }
     // ... 3 more categories with difficulty 2, 3, 4
   ]
 }
 ```
 
 **Rules:**
+
 - Exactly 4 categories, exactly 4 words each
 - Each category must have unique difficulty (1, 2, 3, 4)
 - All words must be unique across the puzzle
@@ -139,6 +143,7 @@ npm run dev
 A purple "🛠️ Dev Mode" panel appears in top-right with date selector dropdown. See `DEV_MODE.md` for full details.
 
 **Disable for production:**
+
 ```bash
 VITE_DEV_MODE=false
 ```
@@ -146,6 +151,7 @@ VITE_DEV_MODE=false
 ## CI/CD
 
 GitHub Actions workflow (`.github/workflows/ci.yml`):
+
 - Runs on push/PR to `main`
 - Tests Node 20.x and 22.x
 - Working directory: `./client`
@@ -156,6 +162,7 @@ GitHub Actions workflow (`.github/workflows/ci.yml`):
 ## Language & Translation
 
 This is a **Bosnian language** game. All UI text and puzzle content should be in Bosnian:
+
 - Use appropriate Bosnian translations (e.g., "Fali jedna..." not "One away...")
 - Category names should reflect Bosnian culture and context
 - Word choices should be familiar to Bosnian speakers
@@ -163,19 +170,79 @@ This is a **Bosnian language** game. All UI text and puzzle content should be in
 ## Configuration
 
 **Game Configuration** (`src/config/gameConfig.ts`):
+
 - Centralized configuration for game name, branding, and settings
-- Uses environment variables for build-time configuration
-- `VITE_GAME_NAME`: Display name (default: "Konekcije")
-- `VITE_GAME_SLUG`: Game identifier (default: "konekcije")
+
+## Styling
+
+**Tailwind CSS v4** is used for all styling via `@tailwindcss/vite` plugin:
+
+**Dark Mode Implementation:**
+
+- Class-based strategy: `.dark` class on `<html>` element
+- Managed by `useDarkMode` hook (adds/removes `.dark` class on `documentElement`)
+- Persisted to localStorage under `theme` key
+
+**Color System:**
+All components use CSS custom properties that automatically switch with theme:
+
+```css
+/* Defined in index.css */
+:root {
+  --text: #1a1a1b;
+  --bg: #f5f5f5;
+  --header-bg: #ffffff;
+  --header-border: #d3d6da;
+  --tile-bg: #efefe6;
+  --tile-selected: #5a594e;
+}
+
+.dark {
+  --text: #d7dadc;
+  --bg: #121213;
+  --header-bg: #121213;
+  --header-border: #3a3a3c;
+  --tile-bg: #3a3a3c;
+  --tile-selected: #818384;
+}
+```
+
+**Usage in Components:**
+
+- Use CSS variables with Tailwind arbitrary values: `bg-[var(--header-bg)]`, `text-[var(--text)]`
+- Never use `dark:` variants with arbitrary colors (Tailwind v4 limitation)
+- CSS variables automatically update when theme changes
+
+**Difficulty Colors:**
+Defined in `@theme` directive in `index.css`:
+
+- Level 1 (Easy): `--color-difficulty-1: #f9df6d` (yellow)
+- Level 2 (Medium): `--color-difficulty-2: #a0c35a` (green)
+- Level 3 (Hard): `--color-difficulty-3: #b0c4ef` (blue)
+- Level 4 (Very Hard): `--color-difficulty-4: #ba81c5` (purple)
+
+**Custom Animations:**
+
+- `animate-slide-in`: Archive drawer slide animation
+- `animate-toast-in`: Feedback message pop-in
+- `animate-reveal`: Category reveal on solve
+
+**Best Practices:**
+
+- Use semantic color variables (e.g., `--text`, `--bg`) instead of hardcoded colors
+- All spacing, sizing, and responsive design should use Tailwind utilities
+- Avoid creating new CSS files - use Tailwind utilities exclusively
 
 ## Storage & State
 
 **localStorage keys:**
+
 - `konekcije_completion_{date}`: Completion data per puzzle date
 - `konekcije_dev_date`: Dev mode selected date (if enabled)
 - Note: Keys maintain `konekcije_` prefix for backward compatibility
 
 **Completion data structure:**
+
 ```typescript
 {
   date: string;
