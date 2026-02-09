@@ -145,47 +145,26 @@ export function Game({ forcedDate }: GameProps) {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="game-container">
-        <header className="game-header">
-          <h1>{currentGame.name}</h1>
-          <p>Učitavanje...</p>
-        </header>
-      </div>
-    );
-  if (!currentPuzzle)
-    return (
-      <div className="game-container">
-        <header className="game-header">
-          <h1>{currentGame.name}</h1>
-          <p>Nema dostupnih zagonetki.</p>
-        </header>
-      </div>
-    );
+  if (isLoading) return null; 
 
   return (
     <div className="game-container">
       <header className="game-header">
-        <h1>{currentGame.name}</h1>
-        <p>{currentGame.description}</p>
-        <div className="puzzle-metadata">
-          {forcedDate && (
-            <p className="archive-date-indicator">
-              Zagonetka od: {forcedDate.split("-").reverse().join("/")}
-            </p>
-          )}
-          {currentPuzzle?.authors && (
-            <p className="author-text">
-              Autor: {currentPuzzle.authors.map((a) => a.name).join(", ")}
-            </p>
-          )}
-        </div>
+        <h1 className="game-title">{currentGame.name}</h1>
+        <div className="puzzle-date">
+  {currentPuzzle!.date.split('-').reverse().join('.') + '.'}
+</div>
+        <p className="game-instructions">{currentGame.description}</p>
       </header>
 
       {gameStatus === "playing" && (
         <div className="mistakes-counter">
-          Preostali pokušaji: {MAX_MISTAKES - mistakes}
+          <span>Preostali pokušaji:</span>
+          <div className="mistake-dots">
+            {Array.from({ length: MAX_MISTAKES - mistakes }).map((_, i) => (
+              <div key={i} className="mistake-dot" />
+            ))}
+          </div>
         </div>
       )}
 
@@ -196,7 +175,6 @@ export function Game({ forcedDate }: GameProps) {
       )}
 
       <div className="game-content">
-        {/* Always show found categories */}
         <CategoryDisplay categories={foundCategories} />
 
         {gameStatus === "playing" ? (
@@ -218,21 +196,17 @@ export function Game({ forcedDate }: GameProps) {
           </>
         ) : (
           <div className="post-game-view">
-            {/* Show remaining categories user didn't find */}
             <CategoryDisplay
-              categories={currentPuzzle.categories.filter(
+              categories={currentPuzzle!.categories.filter(
                 (c) => !foundCategories.find((f) => f.name === c.name),
               )}
             />
 
             <div className="end-game-buttons">
-              <button
-                className="secondary-action-btn"
-                onClick={() => setShowResults(true)}
-              >
+              <button className="primary-action-btn" onClick={() => setShowResults(true)}>
                 Prikaži rezultate
               </button>
-              <button className="primary-action-btn" onClick={initializeGame}>
+              <button className="secondary-action-btn" onClick={initializeGame}>
                 Igraj ponovo
               </button>
             </div>
@@ -243,11 +217,17 @@ export function Game({ forcedDate }: GameProps) {
       {showResults && (
         <ResultsModal
           history={guessHistory}
-          date={currentPuzzle.date}
+          date={currentPuzzle!.date}
           status={gameStatus}
           onClose={() => setShowResults(false)}
           onNewGame={initializeGame}
         />
+      )}
+
+      {currentPuzzle?.authors && (
+        <div className="footer-author">
+          Autor: {currentPuzzle.authors.map((a) => a.name).join(", ")}
+        </div>
       )}
       <Footer />
     </div>
