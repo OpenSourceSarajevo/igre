@@ -42,31 +42,38 @@ export function Game({ forcedDate }: GameProps) {
 
   const loadPuzzle = useCallback(async () => {
     setIsLoading(true);
-    const puzzle = forcedDate
-      ? await getPuzzleByDate(forcedDate)
-      : await getTodaysPuzzle();
-    setCurrentPuzzle(puzzle);
+    try {
+      const puzzle = forcedDate
+        ? await getPuzzleByDate(forcedDate)
+        : await getTodaysPuzzle();
+      
+      setCurrentPuzzle(puzzle);
 
-    if (puzzle) {
-      const completion = getCompletion(puzzle.date);
-      if (completion) {
-        setGameStatus(completion.status);
-        setMistakes(completion.attempts);
-        setFoundCategories(puzzle.categories);
-        setSelectedWords([]);
-        setRemainingWords([]);
-        setGuessHistory(completion.guessHistory || []);
-        setShowResults(true);
-      } else {
-        const allWords = puzzle.categories.flatMap((cat) => cat.words);
-        setRemainingWords(shuffleArray(allWords));
-        setSelectedWords([]);
-        setFoundCategories([]);
-        setMistakes(0);
-        setGameStatus("playing");
-        setGuessHistory([]);
-        setShowResults(false);
+      if (puzzle) {
+        const completion = getCompletion(puzzle.date);
+        if (completion) {
+          setGameStatus(completion.status);
+          setMistakes(completion.attempts);
+          setFoundCategories(puzzle.categories);
+          setSelectedWords([]);
+          setRemainingWords([]);
+          setGuessHistory(completion.guessHistory || []);
+          setShowResults(true);
+        } else {
+          const allWords = puzzle.categories.flatMap((cat) => cat.words);
+          setRemainingWords(shuffleArray(allWords));
+          setSelectedWords([]);
+          setFoundCategories([]);
+          setMistakes(0);
+          setGameStatus("playing");
+          setGuessHistory([]);
+          setShowResults(false);
+          setPreviousGuesses([]);
+        }
       }
+    } catch (error) {
+      console.error("Greška pri učitavanju zagonetke:", error);
+      setCurrentPuzzle(null);
     }
     setIsLoading(false);
   }, [forcedDate]);
@@ -99,6 +106,7 @@ export function Game({ forcedDate }: GameProps) {
 
   const handleShuffle = () =>
     setRemainingWords(shuffleArray([...remainingWords]));
+    
   const handleDeselectAll = () => setSelectedWords([]);
 
   const handleSubmit = () => {
@@ -162,85 +170,120 @@ export function Game({ forcedDate }: GameProps) {
   if (isLoading) return null;
 
   return (
-    <div className="max-w-[600px] mx-auto px-4 flex flex-col">
-      <header className="flex flex-col items-center mb-8 pt-4 text-center">
-        <h1 className="font-inherit text-[2.5rem] font-extrabold m-0 text-[var(--text)] tracking-[-0.04em] leading-[1.1] sm:text-[1.8rem]">{currentGame.name}</h1>
-        <div className="font-inherit text-base font-medium mt-1 text-[var(--text)] opacity-70">
-          {currentPuzzle!.date.split('-').reverse().join('.') + '.'}
-        </div>
-        <p className="font-inherit text-[1.15rem] mt-6 font-normal text-[var(--text)] max-w-[400px] text-center sm:text-base">{currentGame.description}</p>
-      </header>
-
-      {gameStatus === "playing" && (
-        <div className="flex items-center justify-center gap-3 mb-6 text-base text-[var(--text)]">
-          <span>Preostali pokušaji:</span>
-          <div className="flex gap-2">
-            {Array.from({ length: MAX_MISTAKES - mistakes }).map((_, i) => (
-              <div key={i} className="w-3 h-3 bg-[var(--tile-selected)] rounded-full" />
-            ))}
+    <div className="flex flex-col min-h-[calc(100vh-80px)]">
+      {/* Main Game Content Wrapper */}
+      <div className="flex-grow max-w-[600px] mx-auto px-4 w-full">
+        {!currentPuzzle ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <h1 className="font-inherit text-[2.5rem] font-extrabold mb-2 text-[var(--text)] tracking-[-0.04em]">
+              {currentGame.name}
+            </h1>
+            <p className="text-[var(--text)] opacity-70 text-lg">
+              Zagonetka za ovaj datum još nije dostupna.
+            </p>
+            <p className="text-[var(--text)] opacity-50 mt-2">
+              Provjerite arhivu za prethodne dane.
+            </p>
           </div>
-        </div>
-      )}
-
-      <div className="h-[50px] flex items-center justify-center mb-2">
-        {feedbackMessage && <p className="bg-[var(--text)] text-[var(--bg)] px-4 py-2 rounded font-semibold text-[0.95rem] m-0 shadow-[0_4px_12px_rgba(0,0,0,0.2)] animate-toast-in">{feedbackMessage}</p>}
-      </div>
-
-      <div className="w-full">
-        <CategoryDisplay categories={foundCategories} />
-
-        {gameStatus === "playing" ? (
-          <>
-            <WordGrid
-              words={remainingWords}
-              selectedWords={selectedWords}
-              onWordClick={handleWordClick}
-              disabled={false}
-            />
-            <GameControls
-              onShuffle={handleShuffle}
-              onDeselectAll={handleDeselectAll}
-              onSubmit={handleSubmit}
-              canSubmit={selectedWords.length === MAX_SELECTIONS}
-              canDeselect={selectedWords.length > 0}
-              disabled={false}
-            />
-          </>
         ) : (
-          <div>
-            <CategoryDisplay
-              categories={currentPuzzle!.categories.filter(
-                (c) => !foundCategories.find((f) => f.name === c.name),
-              )}
-            />
+          <>
+            <header className="flex flex-col items-center mb-8 pt-4 text-center">
+              <h1 className="font-inherit text-[2.5rem] font-extrabold m-0 text-[var(--text)] tracking-[-0.04em] leading-[1.1] sm:text-[1.8rem]">
+                {currentGame.name}
+              </h1>
+              <div className="font-inherit text-base font-medium mt-1 text-[var(--text)] opacity-70">
+                {currentPuzzle.date.split('-').reverse().join('.') + '.'}
+              </div>
+              <p className="font-inherit text-[1.15rem] mt-6 font-normal text-[var(--text)] max-w-[400px] text-center sm:text-base">
+                {currentGame.description}
+              </p>
+            </header>
 
-            <div className="flex flex-col gap-[10px] items-center mt-8">
-              <button className="bg-[var(--text)] text-[var(--bg)] border-none px-6 py-3 rounded-[24px] font-bold cursor-pointer min-w-[180px]" onClick={() => setShowResults(true)}>
-                Prikaži rezultate
-              </button>
-              <button className="bg-transparent text-[var(--text)] border border-[var(--header-border)] px-6 py-3 rounded-[24px] font-semibold cursor-pointer min-w-[180px]" onClick={initializeGame}>
-                Igraj ponovo
-              </button>
+            {gameStatus === "playing" && (
+              <div className="flex items-center justify-center gap-3 mb-6 text-base text-[var(--text)]">
+                <span>Preostali pokušaji:</span>
+                <div className="flex gap-2">
+                  {Array.from({ length: MAX_MISTAKES - mistakes }).map((_, i) => (
+                    <div key={i} className="w-3 h-3 bg-[var(--tile-selected)] rounded-full" />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="h-[50px] flex items-center justify-center mb-2">
+              {feedbackMessage && (
+                <p className="bg-[var(--text)] text-[var(--bg)] px-4 py-2 rounded font-semibold text-[0.95rem] m-0 shadow-[0_4px_12px_rgba(0,0,0,0.2)] animate-toast-in">
+                  {feedbackMessage}
+                </p>
+              )}
             </div>
-          </div>
+
+            <div className="w-full">
+              <CategoryDisplay categories={foundCategories} />
+
+              {gameStatus === "playing" ? (
+                <>
+                  <WordGrid
+                    words={remainingWords}
+                    selectedWords={selectedWords}
+                    onWordClick={handleWordClick}
+                    disabled={false}
+                  />
+                  <GameControls
+                    onShuffle={handleShuffle}
+                    onDeselectAll={handleDeselectAll}
+                    onSubmit={handleSubmit}
+                    canSubmit={selectedWords.length === MAX_SELECTIONS}
+                    canDeselect={selectedWords.length > 0}
+                    disabled={false}
+                  />
+                </>
+              ) : (
+                <div>
+                  <CategoryDisplay
+                    categories={currentPuzzle.categories.filter(
+                      (c) => !foundCategories.find((f) => f.name === c.name),
+                    )}
+                  />
+
+                  <div className="flex flex-col gap-[10px] items-center mt-8">
+                    <button 
+                      className="bg-[var(--text)] text-[var(--bg)] border-none px-6 py-3 rounded-[24px] font-bold cursor-pointer min-w-[180px] hover:opacity-90 transition-opacity" 
+                      onClick={() => setShowResults(true)}
+                    >
+                      Prikaži rezultate
+                    </button>
+                    <button 
+                      className="bg-transparent text-[var(--text)] border border-[var(--header-border)] px-6 py-3 rounded-[24px] font-semibold cursor-pointer min-w-[180px] hover:bg-[var(--tile-bg)] transition-colors" 
+                      onClick={initializeGame}
+                    >
+                      Igraj ponovo
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {showResults && (
+              <ResultsModal
+                history={guessHistory}
+                date={currentPuzzle.date}
+                status={gameStatus}
+                onClose={() => setShowResults(false)}
+                onNewGame={initializeGame}
+              />
+            )}
+
+            {currentPuzzle.authors && currentPuzzle.authors.length > 0 && (
+              <div className="text-center text-[0.8rem] italic mt-12 mb-8 opacity-50">
+                Autor: {currentPuzzle.authors.map((a) => a.name).join(", ")}
+              </div>
+            )}
+          </>
         )}
       </div>
-
-      {showResults && (
-        <ResultsModal
-          history={guessHistory}
-          date={currentPuzzle!.date}
-          status={gameStatus}
-          onClose={() => setShowResults(false)}
-          onNewGame={initializeGame}
-        />
-      )}
-
-      {currentPuzzle?.authors && (
-        <div className="text-center text-[0.8rem] italic mt-12 opacity-50">
-          Autor: {currentPuzzle.authors.map((a) => a.name).join(", ")}
-        </div>
-      )}
+      
+      {/* Footer is now pushed to the bottom by flex-grow above */}
       <Footer />
     </div>
   );

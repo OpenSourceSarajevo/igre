@@ -22,41 +22,50 @@ export function RulesModal({ onClose }: RulesModalProps) {
         </button>
 
         <div>
-          <h2 className="text-[1.8rem] mb-3 text-center text-[var(--text)]">Kako igrati?</h2>
-          <p className="text-center mb-5 font-medium text-[var(--text)]">Pronađite grupe od četiri pojma koji imaju nešto zajedničko.</p>
+          <h2 className="text-[1.8rem] mb-3 text-center text-[var(--text)] font-bold">Kako igrati?</h2>
+          
+          {/* This remains centered as requested */}
+          <p className="text-center mb-6 font-medium text-[var(--text)]">
+            Pronađite grupe od četiri pojma koji imaju nešto zajedničko.
+          </p>
 
-          <ul className="pl-5 mb-5 text-[var(--text)]">
-            <li className="mb-2.5">Odaberite četiri stavke i pritisnite <strong>'Provjeri'</strong> da vidite je li vaš pogodak tačan.</li>
-            <li className="mb-2.5">Pronađite sve grupe bez više od <strong>4 greške!</strong></li>
+          {/* List items are now explicitly left-aligned and justified */}
+          <ul className="pl-6 mb-5 text-[var(--text)] list-disc text-left">
+            <li className="mb-3 text-justify">
+              Odaberite četiri stavke i pritisnite <strong>'Provjeri'</strong> da vidite je li vaš pogodak tačan.
+            </li>
+            <li className="mb-3 text-justify">
+              Pronađite sve grupe bez više od <strong>4 greške!</strong>
+            </li>
           </ul>
 
-          <h3 className="text-[1.1rem] mt-5 mb-2.5 border-b border-[var(--header-border)] pb-1.5 text-[var(--text)]">Primjeri kategorija</h3>
-          <div className="bg-[var(--tile-bg)] p-2.5 rounded-md mb-2 text-[0.95rem] text-[var(--text)]">
+          <h3 className="text-[1.1rem] mt-5 mb-2.5 border-b border-[var(--header-border)] pb-1.5 text-[var(--text)] font-bold">Primjeri kategorija</h3>
+          <div className="bg-[var(--tile-bg)] p-3 rounded-md mb-2 text-[0.95rem] text-[var(--text)]">
             <p><strong>STVARI KOJE SE MOGU IZVUĆI:</strong> Pouka, Korist, Deblji kraj, Živa glava  </p>
           </div>
-          <div className="bg-[var(--tile-bg)] p-2.5 rounded-md mb-2 text-[0.95rem] text-[var(--text)]">
+          <div className="bg-[var(--tile-bg)] p-3 rounded-md mb-2 text-[0.95rem] text-[var(--text)]">
             <p><strong>HOROSKOPSKI ZNAKOVI + DODATNA SLOVA:</strong> Rakija, Lavanda, Ribar, Vaganje</p>
           </div>
 
-          <p className="text-[0.9rem] opacity-80 mt-2.5 leading-[1.4] text-[var(--text)]">
+          <p className="text-[0.9rem] opacity-80 mt-4 leading-[1.4] text-[var(--text)] text-left">
             Kategorije će uvijek biti specifičnije od "RIJEČI OD 5 SLOVA", "IMENA" ili "GLAGOLI".
           </p>
-          <p className="text-[0.9rem] opacity-80 mt-2.5 leading-[1.4] text-[var(--text)]">
+          <p className="text-[0.9rem] opacity-80 mt-2.5 leading-[1.4] text-[var(--text)] text-left">
             Svaka zagonetka ima tačno jedno rješenje. Čuvajte se riječi koje se čine kao da pripadaju u više kategorija!
           </p>
 
-          <div className="mt-[25px] text-[0.9rem] text-[var(--text)]">
-            <p>Svaka grupa ima boju koja se otkriva rješavanjem:</p>
-            <div className="flex items-center gap-2.5 mt-2">
+          <div className="mt-[30px] text-[0.9rem] text-[var(--text)] border-t border-[var(--header-border)] pt-4">
+            <p className="font-medium mb-2">Svaka grupa ima boju koja se otkriva rješavanjem:</p>
+            <div className="flex items-center gap-3 mt-2">
               <span className="w-3.5 h-3.5 rounded-full bg-[#f9df6d]"></span> Jednostavno
             </div>
-            <div className="flex items-center gap-2.5 mt-2">
+            <div className="flex items-center gap-3 mt-2">
               <span className="w-3.5 h-3.5 rounded-full bg-[#a0c35a]"></span> Srednje
             </div>
-            <div className="flex items-center gap-2.5 mt-2">
+            <div className="flex items-center gap-3 mt-2">
               <span className="w-3.5 h-3.5 rounded-full bg-[#b0c4ef]"></span> Teško
             </div>
-            <div className="flex items-center gap-2.5 mt-2">
+            <div className="flex items-center gap-3 mt-2">
               <span className="w-3.5 h-3.5 rounded-full bg-[#ba81c5]"></span> Vrlo teško
             </div>
           </div>
