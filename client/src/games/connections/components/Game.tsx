@@ -104,8 +104,7 @@ export function Game({ forcedDate }: GameProps) {
 
   const handleSubmit = () => {
     if (!currentPuzzle || gameStatus !== "playing") return;
-
-    // Check for repeat guess
+    
     const sortedSelected = [...selectedWords].sort().join(',');
     const isRepeat = previousGuesses.some(
       guess => [...guess].sort().join(',') === sortedSelected
