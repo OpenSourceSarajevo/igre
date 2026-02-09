@@ -39,6 +39,7 @@ export function Game({ forcedDate }: GameProps) {
   const [gameStatus, setGameStatus] = useState<GameStatusType>("playing");
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
   const [guessHistory, setGuessHistory] = useState<number[][]>([]);
+  const [previousGuesses, setPreviousGuesses] = useState<string[][]>([]);
 
   const loadPuzzle = useCallback(async () => {
     setIsLoading(true);
@@ -84,6 +85,7 @@ export function Game({ forcedDate }: GameProps) {
     setMistakes(0);
     setGameStatus("playing");
     setGuessHistory([]);
+    setPreviousGuesses([]);
     setShowResults(false);
   }, [currentPuzzle]);
 
@@ -102,6 +104,20 @@ export function Game({ forcedDate }: GameProps) {
 
   const handleSubmit = () => {
     if (!currentPuzzle || gameStatus !== "playing") return;
+
+    // Check for repeat guess
+    const sortedSelected = [...selectedWords].sort().join(',');
+    const isRepeat = previousGuesses.some(
+      guess => [...guess].sort().join(',') === sortedSelected
+    );
+
+    if (isRepeat) {
+      setFeedbackMessage("Već ste probali tu kombinaciju");
+      setTimeout(() => setFeedbackMessage(""), 2000);
+      return;
+    }
+
+    setPreviousGuesses(prev => [...prev, selectedWords]);
 
     const currentGuessLevels = selectedWords.map((word) => {
       const cat = currentPuzzle.categories.find((c) => c.words.includes(word));
@@ -127,7 +143,7 @@ export function Game({ forcedDate }: GameProps) {
       if (isGameWon(newFoundCategories, currentPuzzle.categories.length)) {
         setGameStatus("won");
         saveCompletion(currentPuzzle.date, "won", mistakes, newHistory);
-        setTimeout(() => setShowResults(true), 800);
+        setTimeout(() => setShowResults(true), 1200);
       }
     } else {
       if (isOneAway(selectedWords, remainingCategories)) {
@@ -140,7 +156,7 @@ export function Game({ forcedDate }: GameProps) {
       if (isGameLost(newMistakes, MAX_MISTAKES)) {
         setGameStatus("lost");
         saveCompletion(currentPuzzle.date, "lost", newMistakes, newHistory);
-        setTimeout(() => setShowResults(true), 800);
+        setTimeout(() => setShowResults(true), 1200);
       }
     }
   };
@@ -152,8 +168,8 @@ export function Game({ forcedDate }: GameProps) {
       <header className="game-header">
         <h1 className="game-title">{currentGame.name}</h1>
         <div className="puzzle-date">
-  {currentPuzzle!.date.split('-').reverse().join('.') + '.'}
-</div>
+          {currentPuzzle!.date.split('-').reverse().join('.') + '.'}
+        </div>
         <p className="game-instructions">{currentGame.description}</p>
       </header>
 
@@ -168,11 +184,9 @@ export function Game({ forcedDate }: GameProps) {
         </div>
       )}
 
-      {feedbackMessage && (
-        <div className="feedback-message">
-          <p>{feedbackMessage}</p>
-        </div>
-      )}
+      <div className="feedback-message">
+        {feedbackMessage && <p>{feedbackMessage}</p>}
+      </div>
 
       <div className="game-content">
         <CategoryDisplay categories={foundCategories} />
