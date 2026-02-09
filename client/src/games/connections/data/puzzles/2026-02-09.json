@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-09",
+  "categories": [
+    {
+      "name": "Dijelovi dvorca",
+      "words": ["Kula", "Bedem", "Kapija", "Jarak"],
+      "difficulty": 1
+    },
+    {
+      "name": "Srednjovjekovno oružje",
+      "words": ["Topuz", "Luk", "Kama", "Buzdovan"],
+      "difficulty": 2
+    },
+    {
+      "name": "Poludrago kamenje",
+      "words": ["Topaz", "Oniks", "Žad", "Tirkiz"],
+      "difficulty": 3
+    },
+    {
+      "name": "Simboli velikih kuća (Igra prijestolja)",
+      "words": ["Ruža", "Lav", "Jelen", "Kraken"],
+      "difficulty": 4
+    }
+  ]
+}
