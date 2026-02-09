@@ -19,7 +19,6 @@ import { CategoryDisplay } from "./CategoryDisplay";
 import { GameControls } from "./GameControls";
 import { ResultsModal } from "./ResultsModal";
 import { Footer } from "@/components/Footer";
-import "./Game.css";
 
 const MAX_MISTAKES = 4;
 const MAX_SELECTIONS = 4;
@@ -160,34 +159,34 @@ export function Game({ forcedDate }: GameProps) {
     }
   };
 
-  if (isLoading) return null; 
+  if (isLoading) return null;
 
   return (
-    <div className="game-container">
-      <header className="game-header">
-        <h1 className="game-title">{currentGame.name}</h1>
-        <div className="puzzle-date">
+    <div className="max-w-[600px] mx-auto px-4 flex flex-col">
+      <header className="flex flex-col items-center mb-8 pt-4 text-center">
+        <h1 className="font-inherit text-[2.5rem] font-extrabold m-0 text-[var(--text)] tracking-[-0.04em] leading-[1.1] sm:text-[1.8rem]">{currentGame.name}</h1>
+        <div className="font-inherit text-base font-medium mt-1 text-[var(--text)] opacity-70">
           {currentPuzzle!.date.split('-').reverse().join('.') + '.'}
         </div>
-        <p className="game-instructions">{currentGame.description}</p>
+        <p className="font-inherit text-[1.15rem] mt-6 font-normal text-[var(--text)] max-w-[400px] text-center sm:text-base">{currentGame.description}</p>
       </header>
 
       {gameStatus === "playing" && (
-        <div className="mistakes-counter">
+        <div className="flex items-center justify-center gap-3 mb-6 text-base text-[var(--text)]">
           <span>Preostali pokušaji:</span>
-          <div className="mistake-dots">
+          <div className="flex gap-2">
             {Array.from({ length: MAX_MISTAKES - mistakes }).map((_, i) => (
-              <div key={i} className="mistake-dot" />
+              <div key={i} className="w-3 h-3 bg-[var(--tile-selected)] rounded-full" />
             ))}
           </div>
         </div>
       )}
 
-      <div className="feedback-message">
-        {feedbackMessage && <p>{feedbackMessage}</p>}
+      <div className="h-[50px] flex items-center justify-center mb-2">
+        {feedbackMessage && <p className="bg-[var(--text)] text-[var(--bg)] px-4 py-2 rounded font-semibold text-[0.95rem] m-0 shadow-[0_4px_12px_rgba(0,0,0,0.2)] animate-toast-in">{feedbackMessage}</p>}
       </div>
 
-      <div className="game-content">
+      <div className="w-full">
         <CategoryDisplay categories={foundCategories} />
 
         {gameStatus === "playing" ? (
@@ -208,18 +207,18 @@ export function Game({ forcedDate }: GameProps) {
             />
           </>
         ) : (
-          <div className="post-game-view">
+          <div>
             <CategoryDisplay
               categories={currentPuzzle!.categories.filter(
                 (c) => !foundCategories.find((f) => f.name === c.name),
               )}
             />
 
-            <div className="end-game-buttons">
-              <button className="primary-action-btn" onClick={() => setShowResults(true)}>
+            <div className="flex flex-col gap-[10px] items-center mt-8">
+              <button className="bg-[var(--text)] text-[var(--bg)] border-none px-6 py-3 rounded-[24px] font-bold cursor-pointer min-w-[180px]" onClick={() => setShowResults(true)}>
                 Prikaži rezultate
               </button>
-              <button className="secondary-action-btn" onClick={initializeGame}>
+              <button className="bg-transparent text-[var(--text)] border border-[var(--header-border)] px-6 py-3 rounded-[24px] font-semibold cursor-pointer min-w-[180px]" onClick={initializeGame}>
                 Igraj ponovo
               </button>
             </div>
@@ -238,7 +237,7 @@ export function Game({ forcedDate }: GameProps) {
       )}
 
       {currentPuzzle?.authors && (
-        <div className="footer-author">
+        <div className="text-center text-[0.8rem] italic mt-12 opacity-50">
           Autor: {currentPuzzle.authors.map((a) => a.name).join(", ")}
         </div>
       )}

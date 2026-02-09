@@ -1,5 +1,4 @@
 import { X } from 'lucide-react';
-import './RulesModal.css';
 
 interface RulesModalProps {
   onClose: () => void;
@@ -7,49 +6,58 @@ interface RulesModalProps {
 
 export function RulesModal({ onClose }: RulesModalProps) {
   return (
-    <div className="rules-overlay" onClick={onClose}>
-      <div className="rules-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="rules-close" onClick={onClose}>
+    <div
+      className="fixed top-0 left-0 right-0 bottom-0 bg-black/60 flex items-center justify-center z-[3000] p-5"
+      onClick={onClose}
+    >
+      <div
+        className="bg-[var(--header-bg)] w-full max-w-[480px] rounded-2xl relative py-10 px-[30px] shadow-[0_10px_30px_rgba(0,0,0,0.3)] max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="absolute top-[15px] right-[15px] bg-transparent border-none cursor-pointer text-[var(--text)]"
+          onClick={onClose}
+        >
           <X size={24} />
         </button>
-        
-        <div className="rules-content">
-          <h2>Kako igrati?</h2>
-          <p className="subtitle">Pronađite grupe od četiri pojma koji imaju nešto zajedničko.</p>
-          
-          <ul className="rules-list">
-            <li>Odaberite četiri stavke i pritisnite <strong>'Provjeri'</strong> da vidite je li vaš pogodak tačan.</li>
-            <li>Pronađite sve grupe bez više od <strong>4 greške!</strong></li>
+
+        <div>
+          <h2 className="text-[1.8rem] mb-3 text-center text-[var(--text)]">Kako igrati?</h2>
+          <p className="text-center mb-5 font-medium text-[var(--text)]">Pronađite grupe od četiri pojma koji imaju nešto zajedničko.</p>
+
+          <ul className="pl-5 mb-5 text-[var(--text)]">
+            <li className="mb-2.5">Odaberite četiri stavke i pritisnite <strong>'Provjeri'</strong> da vidite je li vaš pogodak tačan.</li>
+            <li className="mb-2.5">Pronađite sve grupe bez više od <strong>4 greške!</strong></li>
           </ul>
 
-          <h3>Primjeri kategorija</h3>
-          <div className="example-item">
+          <h3 className="text-[1.1rem] mt-5 mb-2.5 border-b border-[var(--header-border)] pb-1.5 text-[var(--text)]">Primjeri kategorija</h3>
+          <div className="bg-[var(--tile-bg)] p-2.5 rounded-md mb-2 text-[0.95rem] text-[var(--text)]">
             <p><strong>STVARI KOJE SE MOGU IZVUĆI:</strong> Pouka, Korist, Deblji kraj, Živa glava  </p>
           </div>
-          <div className="example-item">
+          <div className="bg-[var(--tile-bg)] p-2.5 rounded-md mb-2 text-[0.95rem] text-[var(--text)]">
             <p><strong>HOROSKOPSKI ZNAKOVI + DODATNA SLOVA:</strong> Rakija, Lavanda, Ribar, Vaganje</p>
           </div>
 
-          <p className="rules-note">
+          <p className="text-[0.9rem] opacity-80 mt-2.5 leading-[1.4] text-[var(--text)]">
             Kategorije će uvijek biti specifičnije od "RIJEČI OD 5 SLOVA", "IMENA" ili "GLAGOLI".
           </p>
-          <p className="rules-note">
+          <p className="text-[0.9rem] opacity-80 mt-2.5 leading-[1.4] text-[var(--text)]">
             Svaka zagonetka ima tačno jedno rješenje. Čuvajte se riječi koje se čine kao da pripadaju u više kategorija!
           </p>
 
-          <div className="difficulty-legend">
+          <div className="mt-[25px] text-[0.9rem] text-[var(--text)]">
             <p>Svaka grupa ima boju koja se otkriva rješavanjem:</p>
-            <div className="difficulty-row">
-              <span className="dot yellow"></span> Jednostavno
+            <div className="flex items-center gap-2.5 mt-2">
+              <span className="w-3.5 h-3.5 rounded-full bg-[#f9df6d]"></span> Jednostavno
             </div>
-            <div className="difficulty-row">
-              <span className="dot green"></span> Srednje
+            <div className="flex items-center gap-2.5 mt-2">
+              <span className="w-3.5 h-3.5 rounded-full bg-[#a0c35a]"></span> Srednje
             </div>
-            <div className="difficulty-row">
-              <span className="dot blue"></span> Teško
+            <div className="flex items-center gap-2.5 mt-2">
+              <span className="w-3.5 h-3.5 rounded-full bg-[#b0c4ef]"></span> Teško
             </div>
-            <div className="difficulty-row">
-              <span className="dot purple"></span> Vrlo teško
+            <div className="flex items-center gap-2.5 mt-2">
+              <span className="w-3.5 h-3.5 rounded-full bg-[#ba81c5]"></span> Vrlo teško
             </div>
           </div>
         </div>

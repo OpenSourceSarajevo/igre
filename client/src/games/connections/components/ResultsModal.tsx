@@ -1,7 +1,6 @@
 import { X } from 'lucide-react';
 import type { GameStatus } from '../types/game';
 import { currentGame } from '@/config/gameConfig';
-import './ResultsModal.css';
 
 interface ResultsModalProps {
   history: number[][];
@@ -34,21 +33,21 @@ export function ResultsModal({ history, date, status, onClose, onNewGame }: Resu
   if (!history || history.length === 0) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="results-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}><X size={24} /></button>
-        
-        <div className="modal-content">
-          <h2 className="status-title">
+    <div className="fixed top-0 left-0 right-0 bottom-0 bg-black/60 flex items-center justify-center z-[2000] p-5" onClick={onClose}>
+      <div className="bg-[var(--header-bg)] w-full max-w-[400px] rounded-2xl relative py-10 px-5 shadow-[0_10px_30px_rgba(0,0,0,0.3)] text-center" onClick={(e) => e.stopPropagation()}>
+        <button className="absolute top-[15px] right-[15px] bg-transparent border-none cursor-pointer text-[var(--text)]" onClick={onClose}><X size={24} /></button>
+
+        <div>
+          <h2 className="text-[1.8rem] mb-2 text-[var(--text)]">
             {status === 'won' ? '🎉 Čestitamo!' : '😔 Igra završena'}
           </h2>
-          <p className="status-message">
+          <p className="mb-6 opacity-80 text-[var(--text)]">
             {status === 'won' ? 'Pronašli ste sve kategorije!' : 'Više sreće drugi put.'}
           </p>
 
-          <div className="emoji-grid">
+          <div className="flex flex-col gap-1 mb-[30px]">
             {history.map((row, i) => (
-              <div key={i} className="emoji-row">
+              <div key={i} className="text-[1.8rem] leading-none tracking-[6px]">
                 {row.map((level, j) => (
                   <span key={j}>{getEmoji(level)}</span>
                 ))}
@@ -56,11 +55,11 @@ export function ResultsModal({ history, date, status, onClose, onNewGame }: Resu
             ))}
           </div>
 
-          <div className="modal-actions">
-            <button className="share-button" onClick={copyToClipboard}>
+          <div className="flex flex-col gap-3">
+            <button className="bg-[var(--text)] text-[var(--bg)] border-none py-[14px] px-4 rounded-[30px] font-bold text-base cursor-pointer" onClick={copyToClipboard}>
               Podijeli rezultat
             </button>
-            <button className="new-game-button-modal" onClick={onNewGame}>
+            <button className="bg-transparent text-[var(--text)] border border-[var(--header-border)] py-[14px] px-4 rounded-[30px] font-bold text-base cursor-pointer" onClick={onNewGame}>
               Nova igra
             </button>
           </div>
