@@ -1,172 +1,129 @@
 .game-container {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .game-header {
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.game-header h1 {
-  font-size: 48px;
-  font-weight: 700;
-  margin: 0 0 8px;
-  color: var(--text-main);
-}
-
-.game-header p {
-  font-size: 18px;
-  color: var(--text-muted);
-  margin: 0;
-}
-
-.feedback-message {
-  text-align: center;
-  margin: 16px 0;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.feedback-message p {
-  display: inline-block;
-  background-color: var(--feedback-bg);
-  color: var(--feedback-text);
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  margin: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.puzzle-metadata {
-  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+  text-align: center;
 }
 
-.author-text {
-  font-size: 0.8rem;
-  font-style: italic;
+.game-title {
+  font-family: inherit;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
   color: var(--text-main);
-  opacity: 0.8;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.puzzle-date {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 4px;
+  color: var(--text-main);
+  opacity: 0.7; 
+} 
 
-@media (max-width: 640px) {
-  .game-container { padding: 16px; }
-  .game-header h1 { font-size: 36px; }
-  .game-header p { font-size: 16px; }
-}
-
-.results-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 0;
-  padding: 15px;
-  background-color: var(--tile-bg);
-  border-radius: 8px;
-}
-
-.emoji-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 15px;
-}
-
-.emoji-row {
-  font-size: 1.5rem;
-  line-height: 1;
-  letter-spacing: 4px;
-}
-
-.share-button {
-  background-color: var(--text-main);
-  color: var(--bg-main);
-  border: none;
-  padding: 10px 24px;
-  border-radius: 24px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.share-button:hover {
-  opacity: 0.8;
-}
-
-.puzzle-metadata {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.game-instructions {
+  font-family: inherit;
+  font-size: 1.15rem;
+  margin-top: 1.5rem;
+  font-weight: 400;
+  color: var(--text-main);
+  max-width: 400px;
+  text-align: center;
 }
 
 .mistakes-counter {
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 600;
-  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
 }
 
-.view-results-btn {
-  display: block;
-  margin: 20px auto;
-  background: var(--tile-selected);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 24px;
-  font-weight: bold;
-  cursor: pointer;
+.mistake-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.mistake-dot {
+  width: 12px;
+  height: 12px;
+  background-color: var(--tile-selected);
+  border-radius: 50%;
+}
+
+.feedback-message {
+  height: 20px; 
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.feedback-message p {
+  background-color: #000;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .game-content {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 400px;
+  width: 100%;
+}
+
+.footer-author {
+  text-align: center;
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 2rem;
+  opacity: 0.6;
 }
 
 .end-game-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 2rem;
 }
 
 .primary-action-btn {
   background-color: var(--text-main);
   color: var(--bg-main);
   border: none;
-  padding: 14px 32px;
-  border-radius: 30px;
+  padding: 12px 24px;
+  border-radius: 24px;
   font-weight: 700;
   cursor: pointer;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 .secondary-action-btn {
   background-color: transparent;
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  padding: 14px 32px;
-  border-radius: 30px;
-  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 600;
   cursor: pointer;
-  min-width: 200px;
+  min-width: 180px;
 }
 
-.primary-action-btn:hover, .secondary-action-btn:hover {
-  opacity: 0.8;
+@media (max-width: 500px) {
+  .game-title { font-size: 1.8rem; }
+  .game-instructions { font-size: 1rem; }
 }
