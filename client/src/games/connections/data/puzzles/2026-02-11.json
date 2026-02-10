@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-11",
+  "categories": [
+    {
+      "name": "Hljeb",
+      "words": ["Banana", "Bundeva", "Bijeli luk", "Krompir"],
+      "difficulty": 1
+    },
+    {
+      "name": "Oprema u teretani",
+      "words": ["Girja", "Gurtne", "Pojas", "Karabiner"],
+      "difficulty": 2
+    },
+    {
+      "name": "Čakra",
+      "words": ["Kruna", "Treće oko", "Srce", "Korijen"],
+      "difficulty": 3
+    },
+    {
+      "name": "Strane svijeta sa izmijenjenim slovom",
+      "words": ["Djever", "Napad", "Istek", "Dug"],
+      "difficulty": 4
+    }
+  ]
+}
