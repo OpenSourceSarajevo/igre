@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Faruk Kurtić"
+    }
+  ],
+  "date": "2026-02-10",
+  "categories": [
+    {
+      "name": "Žargoni za varanje",
+      "words": ["Farba", "Veslo", "Rad", "Mazanje"],
+      "difficulty": 1
+    },
+    {
+      "name": "Hrvatski neologizmi",
+      "words": ["Daroteka", "Osjećajnik", "Brzogriz", "Zapozorje"],
+      "difficulty": 2
+    },
+    {
+      "name": "Granični prelazi BiH",
+      "words": ["Svilaj", "Brod", "Hum", "Rača"],
+      "difficulty": 3
+    },
+    {
+      "name": "Albumi Đorđa Balaševića",
+      "words": ["Pub", "Bezdan", "Devedesete", "003"],
+      "difficulty": 4
+    }
+  ]
+}
