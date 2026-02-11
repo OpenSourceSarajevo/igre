@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Game, Archive } from '@/games/connections';
-import { Header } from './components/Header';
-import { getTodayDateString } from './utils/dateUtils';
-import { Analytics } from '@vercel/analytics/react';
+import { useState } from "react";
+import { Game, Archive } from "@/games/connections";
+import { Header } from "./components/Header";
+import { getTodayDateString } from "./utils/dateUtils";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(getTodayDateString());

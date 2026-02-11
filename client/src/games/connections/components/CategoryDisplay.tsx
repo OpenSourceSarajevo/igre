@@ -1,5 +1,6 @@
-import type { Category } from '../types/game';
-import { difficultyColors } from '../utils/colors';
+import { cn } from "@/utils/classNameUtils";
+import type { Category } from "../types/game";
+import { difficultyColors } from "../utils/colors";
 interface CategoryDisplayProps {
   categories: Category[];
 }
@@ -8,17 +9,29 @@ export function CategoryDisplay({ categories }: CategoryDisplayProps) {
   if (categories.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-3 w-full max-w-[600px] mx-auto mb-6">
+    <div
+      className={cn(
+        "flex flex-col gap-2 sm:gap-3",
+        "mx-auto mb-4 sm:mb-6",
+        "w-[95vw] sm:w-[630px]",
+      )}
+    >
       {categories.map((category, index) => (
         <div
           key={index}
-          className="p-5 rounded-lg text-center animate-reveal sm:p-4"
-          style={{
-            backgroundColor: difficultyColors[category.difficulty],
-          }}
+          className={cn(
+            "rounded-lg text-center animate-reveal",
+            "p-4 sm:p-5",
+            difficultyColors[category.difficulty],
+          )}
         >
-          <h3 className="font-extrabold text-[1.1rem] mb-1 uppercase sm:text-xs">{category.name}</h3>
-          <p className="text-[0.95rem] tracking-[0.5px] sm:text-base">{category.words.join(', ')}</p>
+          <h3 className="font-extrabold uppercase text-solved-text mb-1 text-sm sm:text-base">
+            {category.name}
+          </h3>
+
+          <p className="text-solved-text tracking-wide text-xs sm:text-sm md:text-base">
+            {category.words.join(", ").toUpperCase()}
+          </p>
         </div>
       ))}
     </div>
