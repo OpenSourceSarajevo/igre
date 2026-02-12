@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Dzenana"
+    }
+  ],
+  "date": "2026-02-12",
+  "categories": [
+    {
+      "name": "Suad",
+      "words": ["medo", "basamaci", "skijanje", "desna"],
+      "difficulty": 1
+    },
+    {
+      "name": "Maska za ___",
+      "words": ["lice", "mobitel", "varenje", "skijanje"],
+      "difficulty": 2
+    },
+    {
+      "name": "Stvari koje lete",
+      "words": ["varnice", "vrijeme", "avion", "leptir"],
+      "difficulty": 3
+    },
+    {
+      "name": "Traka",
+      "words": ["film", "mašna", "matrica", "staza"],
+      "difficulty": 4
+    }
+  ]
+}
