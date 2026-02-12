@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import type {
   Category,
   GameStatus as GameStatusType,
@@ -194,26 +194,10 @@ export function Game({ forcedDate }: GameProps) {
               <div className="font-inherit text-base font-medium mt-1 text-app-text opacity-70">
                 {currentPuzzle.date.split("-").reverse().join(".") + "."}
               </div>
-              <p className="font-inherit text-[1.15rem] mt-6 font-normal text-app-text max-w-[400px] text-center sm:text-base">
+              <p className="font-inherit mt-6 font-normal text-app-text max-w-[400px] text-center text-sm sm:text-base md:text-lg">
                 {currentGame.description}
               </p>
             </header>
-
-            {gameStatus === "playing" && (
-              <div className="flex items-center justify-center gap-3 mb-6 text-base text-app-text">
-                <span>Preostali pokušaji:</span>
-                <div className="flex gap-2">
-                  {Array.from({ length: MAX_MISTAKES - mistakes }).map(
-                    (_, i) => (
-                      <div
-                        key={i}
-                        className="w-3 h-3 bg-tile-selected rounded-full"
-                      />
-                    ),
-                  )}
-                </div>
-              </div>
-            )}
 
             <div className="h-[50px] flex items-center justify-center mb-2">
               {feedbackMessage && (
@@ -242,6 +226,20 @@ export function Game({ forcedDate }: GameProps) {
                     canDeselect={selectedWords.length > 0}
                     disabled={false}
                   />
+
+                  <div className="flex items-center justify-center gap-3 mb-6 text-base text-app-text">
+                    <span>Preostali pokušaji:</span>
+                    <div className="flex gap-2">
+                      {Array.from({ length: MAX_MISTAKES - mistakes }).map(
+                        (_, i) => (
+                          <div
+                            key={i}
+                            className="w-3 h-3 bg-tile-selected rounded-full"
+                          />
+                        ),
+                      )}
+                    </div>
+                  </div>
                 </>
               ) : (
                 <div>
