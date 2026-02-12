@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type {
   Category,
   GameStatus as GameStatusType,
@@ -19,6 +19,7 @@ import { CategoryDisplay } from "./CategoryDisplay";
 import { GameControls } from "./GameControls";
 import { ResultsModal } from "./ResultsModal";
 import { Footer } from "@/components/Footer";
+import Toast from "./Toast";
 
 const MAX_MISTAKES = 4;
 const MAX_SELECTIONS = 4;
@@ -119,7 +120,6 @@ export function Game({ forcedDate }: GameProps) {
 
     if (isRepeat) {
       setFeedbackMessage("Već ste probali tu kombinaciju");
-      setTimeout(() => setFeedbackMessage(""), 2000);
       return;
     }
 
@@ -152,13 +152,14 @@ export function Game({ forcedDate }: GameProps) {
         setTimeout(() => setShowResults(true), 1200);
       }
     } else {
-      if (isOneAway(selectedWords, remainingCategories)) {
-        setFeedbackMessage("Fali jedna...");
-        setTimeout(() => setFeedbackMessage(""), 2000);
-      }
       const newMistakes = mistakes + 1;
       setMistakes(newMistakes);
       setSelectedWords([]);
+      if (isOneAway(selectedWords, remainingCategories)) {
+        setFeedbackMessage("Fali jedna...");
+        setTimeout(() => setFeedbackMessage(""), 2000);
+        setSelectedWords(selectedWords);
+      }
       if (isGameLost(newMistakes, MAX_MISTAKES)) {
         setGameStatus("lost");
         saveCompletion(currentPuzzle.date, "lost", newMistakes, newHistory);
@@ -199,15 +200,12 @@ export function Game({ forcedDate }: GameProps) {
               </p>
             </header>
 
-            <div className="h-[50px] flex items-center justify-center mb-2">
-              {feedbackMessage && (
-                <p className="bg-app-text text-app-bg  px-4 py-2 rounded font-semibold text-[0.95rem] m-0 shadow-[0_4px_12px_rgba(0,0,0,0.2)] animate-toast-in">
-                  {feedbackMessage}
-                </p>
-              )}
-            </div>
+            <div className="w-full relative">
+              <Toast
+                message={feedbackMessage}
+                onClose={() => setFeedbackMessage("")}
+              />
 
-            <div className="w-full">
               <CategoryDisplay categories={foundCategories} />
 
               {gameStatus === "playing" ? (
