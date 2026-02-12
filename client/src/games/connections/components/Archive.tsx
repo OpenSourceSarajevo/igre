@@ -62,14 +62,14 @@ export function Archive({ onSelectDate, currentDate }: ArchiveProps) {
   };
 
   return (
-    <div className="flex flex-col gap-[10px]">
+    <div className="flex flex-col gap-[10px] bg-app-bg">
       {Object.keys(groupedPuzzles).map((monthKey) => (
         <div
           key={monthKey}
-          className="border border-[var(--header-border)] rounded-lg overflow-hidden bg-[var(--tile-bg)]"
+          className="border border-header-border rounded-lg overflow-hidden bg-tile-bg"
         >
           <button
-            className="w-full py-3 px-4 bg-[var(--tile-bg)] border-none text-[var(--text)] font-bold flex justify-between items-center cursor-pointer"
+            className="w-full py-3 px-4 bg-tile-bg border-none text-app-text font-bold flex justify-between items-center cursor-pointer"
             onClick={() => toggleMonth(monthKey)}
           >
             <span>{formatMonthHeader(monthKey)}</span>
@@ -81,7 +81,7 @@ export function Archive({ onSelectDate, currentDate }: ArchiveProps) {
           </button>
 
           {expandedMonths.includes(monthKey) && (
-            <div className="grid grid-cols-4 gap-2 p-3 bg-[var(--header-bg)] border-t border-[var(--header-border)]">
+            <div className="grid grid-cols-4 gap-2 p-3 bg-header-bg border-t border-header-border">
               {groupedPuzzles[monthKey].map((date) => {
                 const completion = getCompletion(date);
                 const isActive = date === currentDate;
@@ -91,9 +91,9 @@ export function Archive({ onSelectDate, currentDate }: ArchiveProps) {
                 return (
                   <button
                     key={date}
-                    className={`aspect-square flex flex-col items-center justify-center rounded bg-[var(--tile-bg)] text-[var(--text)] cursor-pointer relative overflow-hidden border-none transition-transform duration-100 ${
+                    className={`aspect-square flex flex-col items-center justify-center rounded bg-tile-bg text-app-text cursor-pointer relative overflow-hidden border-none transition-transform duration-100 ${
                       isActive
-                        ? "font-extrabold shadow-[inset_0_0_0_3px] shadow-[var(--tile-selected)]"
+                        ? "font-extrabold shadow-[inset_0_0_0_3px] shadow-tile-selected"
                         : ""
                     } ${
                       completion?.status === "won"

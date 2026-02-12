@@ -19,6 +19,7 @@ import { CategoryDisplay } from "./CategoryDisplay";
 import { GameControls } from "./GameControls";
 import { ResultsModal } from "./ResultsModal";
 import { Footer } from "@/components/Footer";
+import Toast from "./Toast";
 
 const MAX_MISTAKES = 4;
 const MAX_SELECTIONS = 4;
@@ -46,7 +47,7 @@ export function Game({ forcedDate }: GameProps) {
       const puzzle = forcedDate
         ? await getPuzzleByDate(forcedDate)
         : await getTodaysPuzzle();
-      
+
       setCurrentPuzzle(puzzle);
 
       if (puzzle) {
@@ -106,24 +107,23 @@ export function Game({ forcedDate }: GameProps) {
 
   const handleShuffle = () =>
     setRemainingWords(shuffleArray([...remainingWords]));
-    
+
   const handleDeselectAll = () => setSelectedWords([]);
 
   const handleSubmit = () => {
     if (!currentPuzzle || gameStatus !== "playing") return;
-    
-    const sortedSelected = [...selectedWords].sort().join(',');
+
+    const sortedSelected = [...selectedWords].sort().join(",");
     const isRepeat = previousGuesses.some(
-      guess => [...guess].sort().join(',') === sortedSelected
+      (guess) => [...guess].sort().join(",") === sortedSelected,
     );
 
     if (isRepeat) {
       setFeedbackMessage("Već ste probali tu kombinaciju");
-      setTimeout(() => setFeedbackMessage(""), 2000);
       return;
     }
 
-    setPreviousGuesses(prev => [...prev, selectedWords]);
+    setPreviousGuesses((prev) => [...prev, selectedWords]);
 
     const currentGuessLevels = selectedWords.map((word) => {
       const cat = currentPuzzle.categories.find((c) => c.words.includes(word));
@@ -152,13 +152,14 @@ export function Game({ forcedDate }: GameProps) {
         setTimeout(() => setShowResults(true), 1200);
       }
     } else {
-      if (isOneAway(selectedWords, remainingCategories)) {
-        setFeedbackMessage("Fali jedna...");
-        setTimeout(() => setFeedbackMessage(""), 2000);
-      }
       const newMistakes = mistakes + 1;
       setMistakes(newMistakes);
       setSelectedWords([]);
+      if (isOneAway(selectedWords, remainingCategories)) {
+        setFeedbackMessage("Fali jedna...");
+        setTimeout(() => setFeedbackMessage(""), 2000);
+        setSelectedWords(selectedWords);
+      }
       if (isGameLost(newMistakes, MAX_MISTAKES)) {
         setGameStatus("lost");
         saveCompletion(currentPuzzle.date, "lost", newMistakes, newHistory);
@@ -172,53 +173,39 @@ export function Game({ forcedDate }: GameProps) {
   return (
     <div className="flex flex-col min-h-[calc(100vh-80px)]">
       {/* Main Game Content Wrapper */}
-      <div className="flex-grow max-w-[600px] mx-auto px-4 w-full">
+      <div className="flex-grow mx-auto px-4 w-full">
         {!currentPuzzle ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <h1 className="font-inherit text-[2.5rem] font-extrabold mb-2 text-[var(--text)] tracking-[-0.04em]">
+            <h1 className="font-inherit text-[2.5rem] font-extrabold mb-2 text-app-text tracking-[-0.04em]">
               {currentGame.name}
             </h1>
-            <p className="text-[var(--text)] opacity-70 text-lg">
+            <p className="text-app-text opacity-70 text-lg">
               Zagonetka za ovaj datum još nije dostupna.
             </p>
-            <p className="text-[var(--text)] opacity-50 mt-2">
+            <p className="text-app-text opacity-50 mt-2">
               Provjerite arhivu za prethodne dane.
             </p>
           </div>
         ) : (
           <>
             <header className="flex flex-col items-center mb-8 pt-4 text-center">
-              <h1 className="font-inherit text-[2.5rem] font-extrabold m-0 text-[var(--text)] tracking-[-0.04em] leading-[1.1] sm:text-[1.8rem]">
+              <h1 className="font-inherit text-[2.5rem] font-extrabold m-0 text-app-text tracking-[-0.04em] leading-[1.1] sm:text-[1.8rem]">
                 {currentGame.name}
               </h1>
-              <div className="font-inherit text-base font-medium mt-1 text-[var(--text)] opacity-70">
-                {currentPuzzle.date.split('-').reverse().join('.') + '.'}
+              <div className="font-inherit text-base font-medium mt-1 text-app-text opacity-70">
+                {currentPuzzle.date.split("-").reverse().join(".") + "."}
               </div>
-              <p className="font-inherit text-[1.15rem] mt-6 font-normal text-[var(--text)] max-w-[400px] text-center sm:text-base">
+              <p className="font-inherit mt-6 font-normal text-app-text max-w-[400px] text-center text-sm sm:text-base md:text-lg">
                 {currentGame.description}
               </p>
             </header>
 
-            {gameStatus === "playing" && (
-              <div className="flex items-center justify-center gap-3 mb-6 text-base text-[var(--text)]">
-                <span>Preostali pokušaji:</span>
-                <div className="flex gap-2">
-                  {Array.from({ length: MAX_MISTAKES - mistakes }).map((_, i) => (
-                    <div key={i} className="w-3 h-3 bg-[var(--tile-selected)] rounded-full" />
-                  ))}
-                </div>
-              </div>
-            )}
+            <div className="w-full relative">
+              <Toast
+                message={feedbackMessage}
+                onClose={() => setFeedbackMessage("")}
+              />
 
-            <div className="h-[50px] flex items-center justify-center mb-2">
-              {feedbackMessage && (
-                <p className="bg-[var(--text)] text-[var(--bg)] px-4 py-2 rounded font-semibold text-[0.95rem] m-0 shadow-[0_4px_12px_rgba(0,0,0,0.2)] animate-toast-in">
-                  {feedbackMessage}
-                </p>
-              )}
-            </div>
-
-            <div className="w-full">
               <CategoryDisplay categories={foundCategories} />
 
               {gameStatus === "playing" ? (
@@ -237,6 +224,20 @@ export function Game({ forcedDate }: GameProps) {
                     canDeselect={selectedWords.length > 0}
                     disabled={false}
                   />
+
+                  <div className="flex items-center justify-center gap-3 mb-6 text-base text-app-text">
+                    <span>Preostali pokušaji:</span>
+                    <div className="flex gap-2">
+                      {Array.from({ length: MAX_MISTAKES - mistakes }).map(
+                        (_, i) => (
+                          <div
+                            key={i}
+                            className="w-3 h-3 bg-tile-selected rounded-full"
+                          />
+                        ),
+                      )}
+                    </div>
+                  </div>
                 </>
               ) : (
                 <div>
@@ -247,14 +248,14 @@ export function Game({ forcedDate }: GameProps) {
                   />
 
                   <div className="flex flex-col gap-[10px] items-center mt-8">
-                    <button 
-                      className="bg-[var(--text)] text-[var(--bg)] border-none px-6 py-3 rounded-[24px] font-bold cursor-pointer min-w-[180px] hover:opacity-90 transition-opacity" 
+                    <button
+                      className="bg-app-text text-app-bg  border-none px-6 py-3 rounded-[24px] font-bold cursor-pointer min-w-[180px] hover:opacity-90 transition-opacity"
                       onClick={() => setShowResults(true)}
                     >
                       Prikaži rezultate
                     </button>
-                    <button 
-                      className="bg-transparent text-[var(--text)] border border-[var(--header-border)] px-6 py-3 rounded-[24px] font-semibold cursor-pointer min-w-[180px] hover:bg-[var(--tile-bg)] transition-colors" 
+                    <button
+                      className="bg-transparent text-app-text border border-header-border px-6 py-3 rounded-[24px] font-semibold cursor-pointer min-w-[180px] hover:bg-tile-bg transition-colors"
                       onClick={initializeGame}
                     >
                       Igraj ponovo
@@ -282,7 +283,7 @@ export function Game({ forcedDate }: GameProps) {
           </>
         )}
       </div>
-      
+
       {/* Footer is now pushed to the bottom by flex-grow above */}
       <Footer />
     </div>

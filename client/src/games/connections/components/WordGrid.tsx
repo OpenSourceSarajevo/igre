@@ -1,3 +1,5 @@
+import { cn } from "@/utils/classNameUtils";
+
 interface WordGridProps {
   words: string[];
   selectedWords: string[];
@@ -5,21 +7,43 @@ interface WordGridProps {
   disabled: boolean;
 }
 
-export function WordGrid({ words, selectedWords, onWordClick, disabled }: WordGridProps) {
+export function WordGrid({
+  words,
+  selectedWords,
+  onWordClick,
+  disabled,
+}: WordGridProps) {
   return (
-    <div className="grid grid-cols-4 gap-3 w-full max-w-[600px] mx-auto sm:gap-2">
+    <div
+      className={cn(
+        "grid grid-cols-4",
+        "gap-2 sm:gap-3",
+        "mx-auto",
+        "w-[95vw] sm:w-[630px]",
+      )}
+    >
       {words.map((word) => (
         <button
           key={word}
-          className={`p-5 text-base font-semibold border-2 border-transparent rounded-lg cursor-pointer transition-all duration-200 min-h-[80px] flex items-center justify-center text-center hover:brightness-90 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 sm:p-[15px] sm:text-sm sm:min-h-[60px] ${
-            selectedWords.includes(word)
-              ? 'bg-[var(--tile-selected)] text-white border-[var(--tile-selected)]'
-              : 'bg-[var(--tile-bg)] text-[var(--text)]'
-          }`}
+          className={cn(
+            "aspect-[3/1.75] w-full",
+            "flex items-center justify-center text-center",
+            "text-sm sm:text-lg md:text-xl",
+            "font-bold uppercase tracking-wide",
+            "p-1 rounded-md",
+            "cursor-pointer transition-all duration-200",
+            "border-none hover:brightness-95 active:scale-95",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+            {
+              "bg-tile-selected text-white border-tile-selected":
+                selectedWords.includes(word),
+              "bg-tile-bg text-app-text": !selectedWords.includes(word),
+            },
+          )}
           onClick={() => onWordClick(word)}
           disabled={disabled}
         >
-          {word}
+          {word.toUpperCase()}
         </button>
       ))}
     </div>
