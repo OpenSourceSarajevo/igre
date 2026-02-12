@@ -1,18 +1,21 @@
+import WordTile from "./WordTile";
 import { cn } from "@/utils/classNameUtils";
 
 interface WordGridProps {
   words: string[];
   selectedWords: string[];
   onWordClick: (word: string) => void;
-  disabled: boolean;
+  disabled?: boolean;
+  shakeSelected?: boolean; // parent tells selected tiles to shake
 }
 
-export function WordGrid({
+export const WordGrid = ({
   words,
   selectedWords,
   onWordClick,
-  disabled,
-}: WordGridProps) {
+  disabled = false,
+  shakeSelected = false,
+}: WordGridProps) => {
   return (
     <div
       className={cn(
@@ -23,29 +26,15 @@ export function WordGrid({
       )}
     >
       {words.map((word) => (
-        <button
+        <WordTile
           key={word}
-          className={cn(
-            "aspect-[3/1.75] w-full",
-            "flex items-center justify-center text-center",
-            "text-sm sm:text-lg md:text-xl",
-            "font-bold uppercase tracking-wide",
-            "p-1 rounded-md",
-            "cursor-pointer transition-all duration-200",
-            "border-none hover:brightness-95 active:scale-95",
-            "disabled:cursor-not-allowed disabled:opacity-50",
-            {
-              "bg-tile-selected text-white border-tile-selected":
-                selectedWords.includes(word),
-              "bg-tile-bg text-app-text": !selectedWords.includes(word),
-            },
-          )}
-          onClick={() => onWordClick(word)}
+          word={word}
+          selected={selectedWords.includes(word)}
+          onClick={onWordClick}
           disabled={disabled}
-        >
-          {word.toUpperCase()}
-        </button>
+          shake={shakeSelected && selectedWords.includes(word)}
+        />
       ))}
     </div>
   );
-}
+};
