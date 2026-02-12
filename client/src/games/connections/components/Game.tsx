@@ -40,6 +40,7 @@ export function Game({ forcedDate }: GameProps) {
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
   const [guessHistory, setGuessHistory] = useState<number[][]>([]);
   const [previousGuesses, setPreviousGuesses] = useState<string[][]>([]);
+  const [shakeSelected, setShakeSelected] = useState(false);
 
   const loadPuzzle = useCallback(async () => {
     setIsLoading(true);
@@ -94,6 +95,7 @@ export function Game({ forcedDate }: GameProps) {
     setGuessHistory([]);
     setPreviousGuesses([]);
     setShowResults(false);
+    setShakeSelected(false);
   }, [currentPuzzle]);
 
   const handleWordClick = (word: string) => {
@@ -140,6 +142,7 @@ export function Game({ forcedDate }: GameProps) {
     const matchedCategory = checkGuess(selectedWords, remainingCategories);
 
     if (matchedCategory) {
+      setShakeSelected(false);
       const newFoundCategories = [...foundCategories, matchedCategory];
       setFoundCategories(newFoundCategories);
       setRemainingWords(
@@ -152,13 +155,14 @@ export function Game({ forcedDate }: GameProps) {
         setTimeout(() => setShowResults(true), 1200);
       }
     } else {
+      setShakeSelected(true);
+      setTimeout(() => setShakeSelected(false), 400);
+
       const newMistakes = mistakes + 1;
       setMistakes(newMistakes);
-      setSelectedWords([]);
       if (isOneAway(selectedWords, remainingCategories)) {
         setFeedbackMessage("Fali jedna...");
         setTimeout(() => setFeedbackMessage(""), 2000);
-        setSelectedWords(selectedWords);
       }
       if (isGameLost(newMistakes, MAX_MISTAKES)) {
         setGameStatus("lost");
@@ -215,6 +219,7 @@ export function Game({ forcedDate }: GameProps) {
                     selectedWords={selectedWords}
                     onWordClick={handleWordClick}
                     disabled={false}
+                    shakeSelected={shakeSelected}
                   />
                   <GameControls
                     onShuffle={handleShuffle}
