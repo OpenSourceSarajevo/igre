@@ -26,7 +26,7 @@ export function WordGrid({
         <button
           key={word}
           className={cn(
-            "aspect-[3/2] w-full",
+            "aspect-[3/1.75] w-full",
             "flex items-center justify-center text-center",
             "text-sm sm:text-lg md:text-xl",
             "font-bold uppercase tracking-wide",
