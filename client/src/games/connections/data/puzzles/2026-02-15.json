@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Emina Zolota"
+    }
+  ],
+  "date": "2026-02-15",
+  "categories": [
+    {
+      "name": "Smijeh",
+      "words": ["Kez", "Keslati", "Grohot", "Valjati"],
+      "difficulty": 1
+    },
+    {
+      "name": "Razglednica iz Amsterdama",
+      "words": ["Lale", "Vafli", "Marihuana", "Biciklo"],
+      "difficulty": 2
+    },
+    {
+      "name": "Stvari koje imaju list",
+      "words": ["Noga", "Kupus", "Knjiga", "Duhan"],
+      "difficulty": 3
+    },
+    {
+      "name": "Podloga za ___",
+      "words": ["Miš", "Joga", "Šminka", "Previjanje"],
+      "difficulty": 4
+    }
+  ]
+}
