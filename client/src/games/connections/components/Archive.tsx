@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { getAllPuzzleDates } from "../utils/puzzleUtils";
 import { getCompletion } from "../utils/storageUtils";
 
@@ -8,8 +8,10 @@ interface ArchiveProps {
 }
 
 export function Archive({ onSelectDate, currentDate }: ArchiveProps) {
-  const [dates, setDates] = useState<string[]>([]);
-  const [expandedMonths, setExpandedMonths] = useState<string[]>([]);
+  const dates = useMemo(() => getAllPuzzleDates(), []);
+  const [expandedMonths, setExpandedMonths] = useState<string[]>(() => [
+    currentDate.substring(0, 7),
+  ]);
 
   // 1. Define Bosnian Months Manually
   const bosnianMonths = [
@@ -26,14 +28,6 @@ export function Archive({ onSelectDate, currentDate }: ArchiveProps) {
     "Novembar",
     "Decembar",
   ];
-
-  useEffect(() => {
-    const allDates = getAllPuzzleDates();
-    setDates(allDates);
-
-    const currentMonthKey = currentDate.substring(0, 7);
-    setExpandedMonths([currentMonthKey]);
-  }, [currentDate]);
 
   const groupedPuzzles = useMemo(() => {
     const groups: Record<string, string[]> = {};

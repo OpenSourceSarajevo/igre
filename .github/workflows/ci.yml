@@ -26,9 +26,9 @@ jobs:
         working-directory: "./client"
         run: npm ci
 
-      # - name: Run linter
-      #   working-directory: "./client"
-      #   run: npm run lint
+      - name: Run linter
+        working-directory: "./client"
+        run: npm run lint
 
       - name: Build project
         working-directory: "./client"

@@ -42,47 +42,55 @@ export function Game({ forcedDate }: GameProps) {
   const [previousGuesses, setPreviousGuesses] = useState<string[][]>([]);
   const [shakeSelected, setShakeSelected] = useState(false);
 
-  const loadPuzzle = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const puzzle = forcedDate
-        ? await getPuzzleByDate(forcedDate)
-        : await getTodaysPuzzle();
-
-      setCurrentPuzzle(puzzle);
-
-      if (puzzle) {
-        const completion = getCompletion(puzzle.date);
-        if (completion) {
-          setGameStatus(completion.status);
-          setMistakes(completion.attempts);
-          setFoundCategories(puzzle.categories);
-          setSelectedWords([]);
-          setRemainingWords([]);
-          setGuessHistory(completion.guessHistory || []);
-          setShowResults(true);
-        } else {
-          const allWords = puzzle.categories.flatMap((cat) => cat.words);
-          setRemainingWords(shuffleArray(allWords));
-          setSelectedWords([]);
-          setFoundCategories([]);
-          setMistakes(0);
-          setGameStatus("playing");
-          setGuessHistory([]);
-          setShowResults(false);
-          setPreviousGuesses([]);
-        }
-      }
-    } catch (error) {
-      console.error("Greška pri učitavanju zagonetke:", error);
-      setCurrentPuzzle(null);
-    }
-    setIsLoading(false);
-  }, [forcedDate]);
-
   useEffect(() => {
+    let cancelled = false;
+
+    async function loadPuzzle() {
+      setIsLoading(true);
+      try {
+        const puzzle = forcedDate
+          ? await getPuzzleByDate(forcedDate)
+          : await getTodaysPuzzle();
+
+        if (cancelled) return;
+
+        setCurrentPuzzle(puzzle);
+
+        if (puzzle) {
+          const completion = getCompletion(puzzle.date);
+          if (completion) {
+            setGameStatus(completion.status);
+            setMistakes(completion.attempts);
+            setFoundCategories(puzzle.categories);
+            setSelectedWords([]);
+            setRemainingWords([]);
+            setGuessHistory(completion.guessHistory || []);
+            setShowResults(true);
+          } else {
+            const allWords = puzzle.categories.flatMap((cat) => cat.words);
+            setRemainingWords(shuffleArray(allWords));
+            setSelectedWords([]);
+            setFoundCategories([]);
+            setMistakes(0);
+            setGameStatus("playing");
+            setGuessHistory([]);
+            setShowResults(false);
+            setPreviousGuesses([]);
+          }
+        }
+      } catch (error) {
+        console.error("Greška pri učitavanju zagonetke:", error);
+        if (!cancelled) setCurrentPuzzle(null);
+      }
+      if (!cancelled) setIsLoading(false);
+    }
+
     loadPuzzle();
-  }, [loadPuzzle]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [forcedDate]);
 
   const initializeGame = useCallback(() => {
     if (!currentPuzzle) return;
