@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Faruk Kurtić"
+    }
+  ],
+  "date": "2026-02-13",
+  "categories": [
+    {
+      "name": "Vrste kafe",
+      "words": ["Irska", "Turska", "Bosna", "Cortado"],
+      "difficulty": 1
+    },
+    {
+      "name": "Žargoni za mršavu osobu",
+      "words": ["Ofinger", "Stalak", "Čačkalica", "Sardina"],
+      "difficulty": 2
+    },
+    {
+      "name": "Kafići iz TV serija",
+      "words": ["San Remo", "Monk", "MacLaren", "Bitange i princeze"],
+      "difficulty": 3
+    },
+    {
+      "name": "Sorte paradajza",
+      "words": ["Jabučar", "San Marzano", "Linkoln", "Tula"],
+      "difficulty": 4
+    }
+  ]
+}
