@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-14",
+  "categories": [
+    {
+      "name": "Osoblje na brodu",
+      "words": ["Kapetan", "Mornar", "Kormilar", "Navigator"],
+      "difficulty": 1
+    },
+    {
+      "name": "Likovi iz Diznijeve \"Male Sirene\"",
+      "words": ["Sirena", "Riba", "Rak", "Hobotnica"],
+      "difficulty": 2
+    },
+    {
+      "name": "Grupa Pingvina",
+      "words": ["Kolonija", "Gnijezdište", "Splav", "Geganje"],
+      "difficulty": 3
+    },
+    {
+      "name": "Morski/a ___",
+      "words": ["Pas", "Školjka", "Zvijezda", "Konjić"],
+      "difficulty": 4
+    }
+  ]
+}
