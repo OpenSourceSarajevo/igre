@@ -35,3 +35,26 @@ export function clearCompletion(date: string): void {
   const key = `${STORAGE_PREFIX}completed_${date}`;
   localStorage.removeItem(key);
 }
+
+export interface InProgressData {
+  mistakes: number;
+  foundCategoryNames: string[];
+  guessHistory: { words: string[]; levels: number[] }[];
+  remainingWords: string[];
+}
+
+export function saveInProgress(date: string, data: InProgressData): void {
+  const key = `${STORAGE_PREFIX}progress_${date}`;
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+export function getInProgress(date: string): InProgressData | null {
+  const key = `${STORAGE_PREFIX}progress_${date}`;
+  const data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : null;
+}
+
+export function clearInProgress(date: string): void {
+  const key = `${STORAGE_PREFIX}progress_${date}`;
+  localStorage.removeItem(key);
+}

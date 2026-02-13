@@ -12,7 +12,13 @@ import {
   isOneAway,
 } from "../utils/gameLogic";
 import { getTodaysPuzzle, getPuzzleByDate } from "../utils/puzzleUtils";
-import { saveCompletion, getCompletion } from "../utils/storageUtils";
+import {
+  saveCompletion,
+  getCompletion,
+  saveInProgress,
+  getInProgress,
+  clearInProgress,
+} from "../utils/storageUtils";
 import { currentGame } from "@/config/gameConfig";
 import { WordGrid } from "./WordGrid";
 import { CategoryDisplay } from "./CategoryDisplay";
@@ -75,14 +81,29 @@ export function Game({ forcedDate }: GameProps) {
             );
             setShowResults(true);
           } else {
-            const allWords = puzzle.categories.flatMap((cat) => cat.words);
-            setRemainingWords(shuffleArray(allWords));
-            setSelectedWords([]);
-            setFoundCategories([]);
-            setMistakes(0);
-            setGameStatus("playing");
-            setGuessHistory([]);
-            setShowResults(false);
+            const progress = getInProgress(puzzle.date);
+            if (progress) {
+              setMistakes(progress.mistakes);
+              setFoundCategories(
+                puzzle.categories.filter((cat) =>
+                  progress.foundCategoryNames.includes(cat.name),
+                ),
+              );
+              setGuessHistory(progress.guessHistory);
+              setRemainingWords(progress.remainingWords);
+              setSelectedWords([]);
+              setGameStatus("playing");
+              setShowResults(false);
+            } else {
+              const allWords = puzzle.categories.flatMap((cat) => cat.words);
+              setRemainingWords(shuffleArray(allWords));
+              setSelectedWords([]);
+              setFoundCategories([]);
+              setMistakes(0);
+              setGameStatus("playing");
+              setGuessHistory([]);
+              setShowResults(false);
+            }
           }
         }
       } catch (error) {
@@ -101,6 +122,7 @@ export function Game({ forcedDate }: GameProps) {
 
   const initializeGame = useCallback(() => {
     if (!currentPuzzle) return;
+    clearInProgress(currentPuzzle.date);
     const allWords = currentPuzzle.categories.flatMap((cat) => cat.words);
     setRemainingWords(shuffleArray(allWords));
     setSelectedWords([]);
@@ -160,12 +182,14 @@ export function Game({ forcedDate }: GameProps) {
       setShakeSelected(false);
       const newFoundCategories = [...foundCategories, matchedCategory];
       setFoundCategories(newFoundCategories);
-      setRemainingWords(
-        remainingWords.filter((word) => !matchedCategory.words.includes(word)),
+      const newRemainingWords = remainingWords.filter(
+        (word) => !matchedCategory.words.includes(word),
       );
+      setRemainingWords(newRemainingWords);
       setSelectedWords([]);
       if (isGameWon(newFoundCategories, currentPuzzle.categories.length)) {
         setGameStatus("won");
+        clearInProgress(currentPuzzle.date);
         saveCompletion(
           currentPuzzle.date,
           "won",
@@ -173,6 +197,13 @@ export function Game({ forcedDate }: GameProps) {
           newHistory.map((g) => g.levels),
         );
         setTimeout(() => setShowResults(true), 1200);
+      } else {
+        saveInProgress(currentPuzzle.date, {
+          mistakes,
+          foundCategoryNames: newFoundCategories.map((c) => c.name),
+          guessHistory: newHistory,
+          remainingWords: newRemainingWords,
+        });
       }
     } else {
       setShakeSelected(true);
@@ -186,6 +217,7 @@ export function Game({ forcedDate }: GameProps) {
       }
       if (isGameLost(newMistakes, MAX_MISTAKES)) {
         setGameStatus("lost");
+        clearInProgress(currentPuzzle.date);
         saveCompletion(
           currentPuzzle.date,
           "lost",
@@ -193,6 +225,13 @@ export function Game({ forcedDate }: GameProps) {
           newHistory.map((g) => g.levels),
         );
         setTimeout(() => setShowResults(true), 1200);
+      } else {
+        saveInProgress(currentPuzzle.date, {
+          mistakes: newMistakes,
+          foundCategoryNames: foundCategories.map((c) => c.name),
+          guessHistory: newHistory,
+          remainingWords,
+        });
       }
     }
   };
