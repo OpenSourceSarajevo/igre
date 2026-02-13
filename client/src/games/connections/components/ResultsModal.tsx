@@ -5,7 +5,7 @@ import { currentGame } from "@/config/gameConfig";
 interface ResultsModalProps {
   history: number[][];
   date: string;
-  status: GameStatus; // Changed from '"won" | "lost"' to 'GameStatus'
+  status: GameStatus;
   onClose: () => void;
   onNewGame: () => void;
 }

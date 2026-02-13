@@ -21,6 +21,11 @@ import { ResultsModal } from "./ResultsModal";
 import { Footer } from "@/components/Footer";
 import Toast from "./Toast";
 
+interface Guess {
+  words: string[];
+  levels: number[];
+}
+
 const MAX_MISTAKES = 4;
 const MAX_SELECTIONS = 4;
 
@@ -38,8 +43,7 @@ export function Game({ forcedDate }: GameProps) {
   const [mistakes, setMistakes] = useState(0);
   const [gameStatus, setGameStatus] = useState<GameStatusType>("playing");
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
-  const [guessHistory, setGuessHistory] = useState<number[][]>([]);
-  const [previousGuesses, setPreviousGuesses] = useState<string[][]>([]);
+  const [guessHistory, setGuessHistory] = useState<Guess[]>([]);
   const [shakeSelected, setShakeSelected] = useState(false);
 
   useEffect(() => {
@@ -64,7 +68,12 @@ export function Game({ forcedDate }: GameProps) {
             setFoundCategories(puzzle.categories);
             setSelectedWords([]);
             setRemainingWords([]);
-            setGuessHistory(completion.guessHistory || []);
+            setGuessHistory(
+              (completion.guessHistory || []).map((levels) => ({
+                words: [],
+                levels,
+              })),
+            );
             setShowResults(true);
           } else {
             const allWords = puzzle.categories.flatMap((cat) => cat.words);
@@ -75,7 +84,6 @@ export function Game({ forcedDate }: GameProps) {
             setGameStatus("playing");
             setGuessHistory([]);
             setShowResults(false);
-            setPreviousGuesses([]);
           }
         }
       } catch (error) {
@@ -101,7 +109,6 @@ export function Game({ forcedDate }: GameProps) {
     setMistakes(0);
     setGameStatus("playing");
     setGuessHistory([]);
-    setPreviousGuesses([]);
     setShowResults(false);
     setShakeSelected(false);
   }, [currentPuzzle]);
@@ -124,8 +131,8 @@ export function Game({ forcedDate }: GameProps) {
     if (!currentPuzzle || gameStatus !== "playing") return;
 
     const sortedSelected = [...selectedWords].sort().join(",");
-    const isRepeat = previousGuesses.some(
-      (guess) => [...guess].sort().join(",") === sortedSelected,
+    const isRepeat = guessHistory.some(
+      (guess) => [...guess.words].sort().join(",") === sortedSelected,
     );
 
     if (isRepeat) {
@@ -133,14 +140,15 @@ export function Game({ forcedDate }: GameProps) {
       return;
     }
 
-    setPreviousGuesses((prev) => [...prev, selectedWords]);
-
     const currentGuessLevels = selectedWords.map((word) => {
       const cat = currentPuzzle.categories.find((c) => c.words.includes(word));
       return cat ? cat.difficulty : 0;
     });
 
-    const newHistory = [...guessHistory, currentGuessLevels];
+    const newHistory = [
+      ...guessHistory,
+      { words: [...selectedWords], levels: currentGuessLevels },
+    ];
     setGuessHistory(newHistory);
 
     const remainingCategories = currentPuzzle.categories.filter(
@@ -159,7 +167,7 @@ export function Game({ forcedDate }: GameProps) {
       setSelectedWords([]);
       if (isGameWon(newFoundCategories, currentPuzzle.categories.length)) {
         setGameStatus("won");
-        saveCompletion(currentPuzzle.date, "won", mistakes, newHistory);
+        saveCompletion(currentPuzzle.date, "won", mistakes, newHistory.map((g) => g.levels));
         setTimeout(() => setShowResults(true), 1200);
       }
     } else {
@@ -174,7 +182,7 @@ export function Game({ forcedDate }: GameProps) {
       }
       if (isGameLost(newMistakes, MAX_MISTAKES)) {
         setGameStatus("lost");
-        saveCompletion(currentPuzzle.date, "lost", newMistakes, newHistory);
+        saveCompletion(currentPuzzle.date, "lost", newMistakes, newHistory.map((g) => g.levels));
         setTimeout(() => setShowResults(true), 1200);
       }
     }
@@ -280,7 +288,7 @@ export function Game({ forcedDate }: GameProps) {
 
             {showResults && (
               <ResultsModal
-                history={guessHistory}
+                history={guessHistory.map((g) => g.levels)}
                 date={currentPuzzle.date}
                 status={gameStatus}
                 onClose={() => setShowResults(false)}
