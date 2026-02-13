@@ -18,7 +18,6 @@ import { WordGrid } from "./WordGrid";
 import { CategoryDisplay } from "./CategoryDisplay";
 import { GameControls } from "./GameControls";
 import { ResultsModal } from "./ResultsModal";
-import { Footer } from "@/components/Footer";
 import Toast from "./Toast";
 
 interface Guess {
@@ -167,7 +166,12 @@ export function Game({ forcedDate }: GameProps) {
       setSelectedWords([]);
       if (isGameWon(newFoundCategories, currentPuzzle.categories.length)) {
         setGameStatus("won");
-        saveCompletion(currentPuzzle.date, "won", mistakes, newHistory.map((g) => g.levels));
+        saveCompletion(
+          currentPuzzle.date,
+          "won",
+          mistakes,
+          newHistory.map((g) => g.levels),
+        );
         setTimeout(() => setShowResults(true), 1200);
       }
     } else {
@@ -182,7 +186,12 @@ export function Game({ forcedDate }: GameProps) {
       }
       if (isGameLost(newMistakes, MAX_MISTAKES)) {
         setGameStatus("lost");
-        saveCompletion(currentPuzzle.date, "lost", newMistakes, newHistory.map((g) => g.levels));
+        saveCompletion(
+          currentPuzzle.date,
+          "lost",
+          newMistakes,
+          newHistory.map((g) => g.levels),
+        );
         setTimeout(() => setShowResults(true), 1200);
       }
     }
@@ -191,9 +200,8 @@ export function Game({ forcedDate }: GameProps) {
   if (isLoading) return null;
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-80px)]">
-      {/* Main Game Content Wrapper */}
-      <div className="flex-grow mx-auto px-4 w-full">
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 mx-auto px-4 w-full">
         {!currentPuzzle ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <h1 className="font-inherit text-[2.5rem] font-extrabold mb-2 text-app-text tracking-[-0.04em]">
@@ -304,9 +312,6 @@ export function Game({ forcedDate }: GameProps) {
           </>
         )}
       </div>
-
-      {/* Footer is now pushed to the bottom by flex-grow above */}
-      <Footer />
     </div>
   );
 }
