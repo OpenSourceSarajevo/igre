@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-18",
+  "categories": [
+    {
+      "name": "Otorinolaringologija",
+      "words": ["Uho", "Nos", "Grlo", "Vrat"],
+      "difficulty": 1
+    },
+    {
+      "name": "Polja u monopolu",
+      "words": ["Parking", "Šansa", "Zatvor", "Vodovod"],
+      "difficulty": 3
+    },
+    {
+      "name": "Simpoli olimpijade",
+      "words": ["Baklja", "Medalja", "Maskota", "Zastava"],
+      "difficulty": 2
+    },
+    {
+      "name": "Slike Vincenta van Gogha",
+      "words": ["Autoportret", "Suncokret", "Spavaća Soba", "Sijač"],
+      "difficulty": 4
+    }
+  ]
+}
