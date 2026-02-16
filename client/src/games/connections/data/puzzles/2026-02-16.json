@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Emina Zolota"
+    }
+  ],
+  "date": "2026-02-16",
+  "categories": [
+    {
+      "name": "Znaci prehlade",
+      "words": ["Kašalj", "Temperatura", "Grlobolja", "Kihanje"],
+      "difficulty": 1
+    },
+    {
+      "name": "Proljetni vjesnici",
+      "words": ["Visibaba", "Alergija", "Sunce", "Pčela"],
+      "difficulty": 2
+    },
+    {
+      "name": "Stvari koje se \"puštaju\"",
+      "words": ["Korijen", "Glas", "Brada", "Zmaj"],
+      "difficulty": 3
+    },
+    {
+      "name": "Počinju na muzičku notu (Fa, So, La, Ti)",
+      "words": ["Fasada", "Sol", "Lasta", "Tikvica"],
+      "difficulty": 4
+    }
+  ]
+}
