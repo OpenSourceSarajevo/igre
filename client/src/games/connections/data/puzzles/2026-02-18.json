@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Azy"
+    }
+  ],
+  "date": "2026-02-18",
+  "categories": [
+    {
+      "name": "Najveće planine po država na Balkanu",
+      "words": ["Maglić", "Dinara", "Midžor", "Zla Kolata"],
+      "difficulty": 1
+    },
+    {
+      "name": "Bendovi",
+      "words": ["Haustor", "Indexi", "Azra", "Bolero"],
+      "difficulty": 2
+    },
+    {
+      "name": "Imaju po tri ___",
+      "words": ["Kerber", "Triskelion", "Hekata", "Triglav"],
+      "difficulty": 3
+    },
+    {
+      "name": "Imena žena bosanskih vladara",
+      "words": ["Doroteja", "Katarina", "Kujava", "Jelena"],
+      "difficulty": 4
+    }
+  ]
+}
