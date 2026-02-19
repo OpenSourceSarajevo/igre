@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Treći najdraži kolega"
+    }
+  ],
+  "date": "2026-02-19",
+  "categories": [
+    {
+      "name": "Balkanske marke cigareta",
+      "words": ["Jadran", "Drina", "Aura", "Morava"],
+      "difficulty": 1
+    },
+    {
+      "name": "Tipovi morskih vjetrova",
+      "words": ["Jugo", "Mistral", "Kopnenjak", "Zmorac"],
+      "difficulty": 2
+    },
+    {
+      "name": "Lutka sa naslovne strane",
+      "words": ["Sedrenik", "Lutka", "Fotomodel", "Pašteta"],
+      "difficulty": 4
+    },
+    {
+      "name": "BiH gradovi bez dodatnih slova",
+      "words": ["Most", "Banja", "Gora", "Stol"],
+      "difficulty": 3
+    }
+  ]
+}
