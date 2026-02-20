@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Treći najdraži kolega (vjerovatno)"
+    }
+  ],
+  "date": "2026-02-20",
+  "categories": [
+    {
+      "name": "Gospodin savršeni",
+      "words": ["Ljubav", "Spoj", "Izbor", "Ruža"],
+      "difficulty": 1
+    },
+    {
+      "name": "Stvari koje mogu pasti",
+      "words": ["Dogovor", "Ispit", "Opklada", "Mrak"],
+      "difficulty": 2
+    },
+    {
+      "name": "Mogu biti zlatni",
+      "words": ["Sat", "Medalja", "Zub", "Pravilo"],
+      "difficulty": 3
+    },
+    {
+      "name": "Vrste standarda",
+      "words": ["ISO", "Moral", "Zlato", "Dvostruki"],
+      "difficulty": 4
+    }
+  ]
+}
