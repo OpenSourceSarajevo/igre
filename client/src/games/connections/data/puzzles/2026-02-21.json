@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Azy"
+    }
+  ],
+  "date": "2026-02-21",
+  "categories": [
+    {
+      "name": "Cvijeće",
+      "words": ["Dalija", "Narcis", "Neven", "Kukurijek"],
+      "difficulty": 1
+    },
+    {
+      "name": "Imena poznatih tornjeva",
+      "words": ["Elizabeth", "Galata", "Tokyo", "Giraldа"],
+      "difficulty": 2
+    },
+    {
+      "name": "Stvari koje proizvedu zvukove",
+      "words": ["Big Ben", "Astronomski sat", "Gong", "Rog"],
+      "difficulty": 3
+    },
+    {
+      "name": "Dio izreke/izraza",
+      "words": ["Rubicon", "Kocka", "Ljubav", "Vrijeme"],
+      "difficulty": 4
+    }
+  ]
+}
