@@ -49,8 +49,10 @@ npm run preview      # Preview production build locally
 **Game State Management:**
 
 - Lives in `Game.tsx` component with local state
-- Completion data persisted to localStorage per date
+- In-progress state persisted to localStorage after every guess (restored on refresh)
+- Completion data saved to localStorage when game ends (won or lost)
 - Tracks: selected words, found categories, mistakes (max 4), game status
+- All guesses stored as `Guess[]` — each with `words: string[]` and `levels: number[]`
 
 **Difficulty System:**
 
@@ -237,11 +239,13 @@ Defined in `@theme` directive in `index.css`:
 
 **localStorage keys:**
 
-- `konekcije_completion_{date}`: Completion data per puzzle date
+- `konekcije_completion_{date}`: Completion data, written when game ends (won/lost)
+- `konekcije_progress_{date}`: In-progress state, written after every guess, cleared on game end
 - `konekcije_dev_date`: Dev mode selected date (if enabled)
+- `theme`: Light/dark theme preference
 - Note: Keys maintain `konekcije_` prefix for backward compatibility
 
-**Completion data structure:**
+**Completion data structure (`CompletionData`):**
 
 ```typescript
 {
@@ -250,6 +254,17 @@ Defined in `@theme` directive in `index.css`:
   status: 'won' | 'lost';
   attempts: number;
   timestamp: string;
-  guessHistory: number[][]; // For result display
+  guessHistory: number[][]; // Difficulty levels per guess, for result display
+}
+```
+
+**In-progress data structure (`InProgressData`):**
+
+```typescript
+{
+  mistakes: number;
+  foundCategoryNames: string[];
+  guessHistory: { words: string[]; levels: number[] }[];
+  remainingWords: string[]; // Preserves current word order
 }
 ```
