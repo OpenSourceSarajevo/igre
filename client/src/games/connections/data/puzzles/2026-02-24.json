@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-24",
+  "categories": [
+    {
+      "name": "BH filmovi",
+      "words": ["Nafaka", "Grbavica", "Testament", "Kuduz"],
+      "difficulty": 1
+    },
+    {
+      "name": "Rekviziti na zimksim olimpijskim igrama",
+      "words": ["Klizaljke", "Štap", "Bob", "Metla"],
+      "difficulty": 2
+    },
+    {
+      "name": "Viđeni na bh gotovini",
+      "words": ["Golub", "Grb", "Naočale", "Fes"],
+      "difficulty": 3
+    },
+    {
+      "name": "Likovi iz Alana Forda",
+      "words": ["Šef", "Grunf", "Lešina", "Oliver"],
+      "difficulty": 4
+    }
+  ]
+}
