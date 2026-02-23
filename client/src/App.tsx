@@ -4,9 +4,12 @@ import { Header } from "./components/Header";
 import { getTodayDateString } from "./utils/dateUtils";
 import { Analytics } from "@vercel/analytics/react";
 import { Footer } from "./components/Footer";
+import { StatsPage } from "./pages/StatsPage";
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(getTodayDateString());
+
+  if (window.location.pathname === "/stats") return <StatsPage />;
 
   return (
     <div className="flex flex-col w-full h-dvh">
