@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-22",
+  "categories": [
+    {
+      "name": "Kolone u jambu",
+      "words": ["Ručna", "Slobodna", "Najava", "Obavezna"],
+      "difficulty": 1
+    },
+    {
+      "name": "Karte velike arkane",
+      "words": ["Svijet", "Smrt", "Kula", "Pravda"],
+      "difficulty": 2
+    },
+    {
+      "name": "Simbol na zastavi",
+      "words": ["Javorov list", "Cedar", "Zmaj", "Sunce"],
+      "difficulty": 3
+    },
+    {
+      "name": "Nadimci bosanskih muzičara",
+      "words": ["Čizma", "Para", "Loša", "Brega"],
+      "difficulty": 4
+    }
+  ]
+}
