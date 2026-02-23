@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-23",
+  "categories": [
+    {
+      "name": "Mjere za površinu zemlje",
+      "words": ["Jutro", "Ar", "Dulum", "Ral"],
+      "difficulty": 2
+    },
+    {
+      "name": "Boje tarot karata",
+      "words": ["Štap", "Zlatnik", "Mač", "Pehar"],
+      "difficulty": 3
+    },
+    {
+      "name": "Nijanse crvene",
+      "words": ["Cinober", "Grimiz", "Karmin", "Koraljna"],
+      "difficulty": 1
+    },
+    {
+      "name": "Orginalna imena bh fudbalskih klubova",
+      "words": ["Torpedo", "Borak", "Gorki", "Zidar"],
+      "difficulty": 4
+    }
+  ]
+}
