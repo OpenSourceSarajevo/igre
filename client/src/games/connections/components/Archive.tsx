@@ -82,20 +82,19 @@ export function Archive({ onSelectDate, currentDate }: ArchiveProps) {
                 const day = date.split("-")[2];
                 const month = date.split("-")[1];
 
+                const bgClass =
+                  completion?.status === "won"
+                    ? "bg-[#a0c35a] text-white"
+                    : completion?.status === "lost"
+                      ? "bg-[#787c7e] text-white"
+                      : "bg-tile-bg text-app-text";
+
                 return (
                   <button
                     key={date}
-                    className={`aspect-square flex flex-col items-center justify-center rounded bg-tile-bg text-app-text cursor-pointer relative overflow-hidden border-none transition-transform duration-100 ${
+                    className={`aspect-square flex flex-col items-center justify-center rounded cursor-pointer relative overflow-hidden border-none transition-transform duration-100 ${bgClass} ${
                       isActive
                         ? "font-extrabold shadow-[inset_0_0_0_3px] shadow-tile-selected"
-                        : ""
-                    } ${
-                      completion?.status === "won"
-                        ? "bg-[#a0c35a] text-white"
-                        : ""
-                    } ${
-                      completion?.status === "lost"
-                        ? "bg-[#787c7e] text-white"
                         : ""
                     }`}
                     onClick={() => onSelectDate(date)}
