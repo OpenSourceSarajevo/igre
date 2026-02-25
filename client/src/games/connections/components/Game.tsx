@@ -70,7 +70,13 @@ export function Game({ forcedDate }: GameProps) {
           if (completion) {
             setGameStatus(completion.status);
             setMistakes(completion.attempts);
-            setFoundCategories(puzzle.categories);
+            const completionOrder = (completion.guessHistory || [])
+              .filter((levels) => levels.length === 4 && levels.every((l) => l === levels[0]))
+              .map((levels) => levels[0]);
+            const orderedFound = completionOrder
+              .map((diff) => puzzle.categories.find((c) => c.difficulty === diff))
+              .filter(Boolean) as Category[];
+            setFoundCategories(orderedFound);
             setSelectedWords([]);
             setRemainingWords([]);
             setGuessHistory(
