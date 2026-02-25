@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Emina Zolota"
+    }
+  ],
+  "date": "2026-02-26",
+  "categories": [
+    {
+      "name": "Priprema palačinaka",
+      "words": ["Mlijeko", "Brašno", "Jaja", "Krem"],
+      "difficulty": 1
+    },
+    {
+      "name": "Stvari koje se sreću na planinarskoj stazi",
+      "words": ["Markacija", "Voda", "Vidikovac", "Dom"],
+      "difficulty": 2
+    },
+    {
+      "name": "Stvari koje se moraju \"okretati/vrtiti\"",
+      "words": ["Ćetenija", "Zupčanik", "Ploča", "Točak"],
+      "difficulty": 3
+    },
+    {
+      "name": "Vrste kafe prema namjeni + \"uša\"",
+      "words": ["Razgovor", "Doček", "Razgal", "Priljev"],
+      "difficulty": 4
+    }
+  ]
+}
