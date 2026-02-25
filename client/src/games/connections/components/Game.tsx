@@ -79,7 +79,7 @@ export function Game({ forcedDate }: GameProps) {
                 levels,
               })),
             );
-            setShowResults(true);
+            setShowResults(false);
           } else {
             const progress = getInProgress(puzzle.date);
             if (progress) {
