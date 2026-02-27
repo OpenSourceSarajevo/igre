@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Faruk Kurtić"
+    }
+  ],
+  "date": "2026-02-28",
+  "categories": [
+    {
+      "name": "Stvari koje imaju glavu",
+      "words": ["Motor", "Porodica", "Kupus", "Ekser"],
+      "difficulty": 1
+    },
+    {
+      "name": "Stvari koje se mogu napuniti",
+      "words": ["Paprika", "Puška", "Baterija", "Automobil"],
+      "difficulty": 2
+    },
+    {
+      "name": "Italijanski brainrot",
+      "words": ["Kapučino", "Ajkula", "Banana", "Kaktus"],
+      "difficulty": 4
+    },
+    {
+      "name": "Vrste osiguranja",
+      "words": ["Život", "Zdravlje", "Put", "Kasko"],
+      "difficulty": 3
+    }
+  ]
+}
