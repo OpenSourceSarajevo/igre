@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-02-28",
+  "categories": [
+    {
+      "name": "Elementi muzičke notacije",
+      "words": ["Predznak", "Ključ", "Nota", "Pauza"],
+      "difficulty": 1
+    },
+    {
+      "name": "Ledo sladoled",
+      "words": ["Snjeguljica", "Duo", "Kesten", "Plazma"],
+      "difficulty": 2
+    },
+    {
+      "name": "Žargoni za drogu",
+      "words": ["Trava", "Koka", "Žuto", "Ekser"],
+      "difficulty": 3
+    },
+    {
+      "name": "Prezimena likova iz serije Lud, zbunjen, normalan",
+      "words": ["Šesto", "Zaklan", "Burek", "Mrvica"],
+      "difficulty": 4
+    }
+  ]
+}
