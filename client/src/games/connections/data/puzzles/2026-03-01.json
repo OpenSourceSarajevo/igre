@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-03-01",
+  "categories": [
+    {
+      "name": "Dobitne kombinacije u pokeru",
+      "words": ["Par", "Boja", "Skala", "Poker"],
+      "difficulty": 1
+    },
+    {
+      "name": "Vrste papagaja",
+      "words": ["Lori", "Ara", "Tigrica", "Žako"],
+      "difficulty": 2
+    },
+    {
+      "name": "U grupi od dvanaest",
+      "words": ["Mjesec", "Apostol", "Herkulov zadatak", "Zodijak"],
+      "difficulty": 3
+    },
+    {
+      "name": "Crna ___",
+      "words": ["Ovca", "Hronika", "Rupa", "Udovica"],
+      "difficulty": 4
+    }
+  ]
+}
