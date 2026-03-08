@@ -29,14 +29,16 @@
         "required": ["name", "words", "difficulty"],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "words": {
             "type": "array",
             "minItems": 4,
             "maxItems": 4,
             "items": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           },
           "difficulty": {
