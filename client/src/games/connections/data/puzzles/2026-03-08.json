@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-03-08",
+  "categories": [
+    {
+      "name": "Žute stvari",
+      "words": ["Limun", "Suncokret", "Vuga", "Banana"],
+      "difficulty": 1
+    },
+    {
+      "name": "Jezera u BiH",
+      "words": ["Crno", "Bijelo", "Platno", "Malo"],
+      "difficulty": 2
+    },
+    {
+      "name": "Simboli Francuske",
+      "words": ["Pijetao", "Ljiljan", "Frigijska kapa", "Marianne"],
+      "difficulty": 3
+    },
+    {
+      "name": "Počinju sa muzičkim žanrovima",
+      "words": ["Rokada", "Funkcija", "Bluza", "Džezva"], 
+      "difficulty": 4
+    }
+  ]
+}
