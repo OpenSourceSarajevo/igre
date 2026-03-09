@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-03-08",
+  "categories": [
+    {
+      "name": "Stvari koje mogu biti hladne",
+      "words": ["Čovjek", "Tuš", "Oružje", "Pogled"],
+      "difficulty": 1
+    },
+    {
+      "name": "Nadnaravnosti poslanika u islamu",
+      "words": ["Štap", "Kit", "Slijep", "Vatra"],
+      "difficulty": 2
+    },
+    {
+      "name": "BH filmovi",
+      "words": ["Amidža", "Zemlja", "Halima", "Krug"],
+      "difficulty": 3
+    },
+    {
+      "name": "Riječi iz Halidove pjesme Ljiljani",
+      "words": ["Jug", "Ptica", "Grad", "Cvijeće"], 
+      "difficulty": 4
+    }
+  ]
+}
