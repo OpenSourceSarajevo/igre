@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-03-14",
+  "categories": [
+    {
+      "name": "Vrhovne internetske domene država",
+      "words": ["Ne", "Dj", "Tv", "Cm"],
+      "difficulty": 1
+    },
+    {
+      "name": "Romani Alberta Camusa",
+      "words": ["Stranac", "Pad", "Kuga", "Sretna Smrt"],
+      "difficulty": 2
+    },
+    {
+      "name": "___ X",
+      "words": ["Sarajevo", "Slučajevi", "Dosje", "Generacija"],
+      "difficulty": 3
+    },
+    {
+      "name": "Počinje sa slovom grćkog alfabeta",
+      "words": ["Etaža", "Misli", "Pita", "Nijansa"],
+      "difficulty": 4
+    }
+  ]
+}
