@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Abi Barabi"
+    }
+  ],
+  "date": "2026-03-16",
+  "categories": [
+    {
+      "name": "Stvari potrebne za intervju za posao",
+      "words": ["CV", "Kompetencija", "Portfolio", "Samopouzdanje"],
+      "difficulty": 1
+    },
+    {
+      "name": "Službe evidencije i spisi",
+      "words": ["Dosije", "Atest", "Traktat", "Kodeks"],
+      "difficulty": 2
+    },
+    {
+      "name": "Logotipi svjetskih brendova",
+      "words": ["LV", "CK", "NB", "DB"],
+      "difficulty": 3
+    },
+    {
+      "name": "Breaking Bad",
+      "words": ["RV", "Metamfetamin", "Aztek", "Pizza"],
+      "difficulty": 4
+    }
+  ]
+}
