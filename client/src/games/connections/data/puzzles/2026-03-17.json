@@ -1,0 +1,31 @@
+{
+  "$schema": "./puzzle.schema.json",
+  "authors": [
+    {
+      "name": "Enis Mulić"
+    }
+  ],
+  "date": "2026-03-16",
+  "categories": [
+    {
+      "name": "Asocirani sa jabukom",
+      "words": ["Njutn", "Njujork", "Eva", "iPhone"],
+      "difficulty": 3
+    },
+    {
+      "name": "U grupi od sedam",
+      "words": ["Kontinent", "Smrtni grijeh", "Čudo", "Brat"],
+      "difficulty": 4
+    },
+    {
+      "name": "Bilijarske igre",
+      "words": ["Snuker", "Devetka", "Karambol", "Rotacija"],
+      "difficulty": 2
+    },
+    {
+      "name": "Čvrsti oblici lijekova",
+      "words": ["Dražeja", "Kapsula", "Tableta", "Prašak"],
+      "difficulty": 1
+    }
+  ]
+}
