@@ -1,15 +1,23 @@
 import { useState } from "react";
-import { Game, Archive, CreatePuzzle } from "@/games/connections";
+import { Game, Archive, CreatePuzzle, StatsPage } from "@/games/connections";
 import { Header } from "./components/Header";
 import { getTodayDateString } from "./utils/dateUtils";
 import { Analytics } from "@vercel/analytics/react";
 import { Footer } from "./components/Footer";
-import { StatsPage } from "./pages/StatsPage";
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(getTodayDateString());
 
-  if (window.location.pathname === "/stats") return <StatsPage />;
+  if (window.location.pathname === "/stats")
+    return (
+      <div className="flex flex-col w-full h-dvh">
+        <Header />
+        <main className="flex-1 min-h-0 overflow-y-auto">
+          <StatsPage />
+          <Footer />
+        </main>
+      </div>
+    );
   if (window.location.pathname === "/kreiraj")
     return (
       <div className="flex flex-col w-full h-dvh">
