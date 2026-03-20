@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Game, Archive } from "@/games/connections";
+import { Game, Archive, CreatePuzzle } from "@/games/connections";
 import { Header } from "./components/Header";
 import { getTodayDateString } from "./utils/dateUtils";
 import { Analytics } from "@vercel/analytics/react";
@@ -10,6 +10,16 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(getTodayDateString());
 
   if (window.location.pathname === "/stats") return <StatsPage />;
+  if (window.location.pathname === "/kreiraj")
+    return (
+      <div className="flex flex-col w-full h-dvh">
+        <Header />
+        <main className="flex-1 min-h-0 overflow-y-auto">
+          <CreatePuzzle />
+          <Footer />
+        </main>
+      </div>
+    );
 
   return (
     <div className="flex flex-col w-full h-dvh">
