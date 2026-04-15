@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Download } from "lucide-react";
 import GameControlButton from "./GameControlButton";
 import { difficultyColors } from "../utils/colors";
@@ -69,7 +69,7 @@ export function CreatePuzzle() {
     return e;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {

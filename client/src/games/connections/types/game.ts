@@ -7,7 +7,7 @@ export interface Category {
 }
 
 export interface Puzzle {
-  id: number;
+  id: string;
   authors?: Author[];
   categories: Category[];
 }
