@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Game, Archive, CreatePuzzle, StatsPage } from "@/games/connections";
+import { Game, Archive, CreatePuzzle, StatsPage, SuggestionsPage } from "@/games/connections";
 import { Header } from "./components/Header";
 import { getTodayDateString } from "./utils/dateUtils";
 import { Analytics } from "@vercel/analytics/react";
@@ -14,6 +14,16 @@ function App() {
         <Header />
         <main className="flex-1 min-h-0 overflow-y-auto">
           <StatsPage />
+          <Footer />
+        </main>
+      </div>
+    );
+  if (window.location.pathname === "/prijedlozi")
+    return (
+      <div className="flex flex-col w-full h-dvh">
+        <Header />
+        <main className="flex-1 min-h-0 overflow-y-auto">
+          <SuggestionsPage />
           <Footer />
         </main>
       </div>

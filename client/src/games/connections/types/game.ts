@@ -30,3 +30,13 @@ export interface CompletionData {
 }
 
 export type GameStatus = 'playing' | 'won' | 'lost';
+
+export interface Submission {
+  id: string;
+  submitted_at: string;
+  proposed_date: string;
+  authors: { name: string }[];
+  categories: { name: string; words: string[]; difficulty: number }[];
+  reviewed_at: string | null;
+  rejection_notes: string | null;
+}

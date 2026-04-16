@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase'
-import type { DailyPuzzle } from '../types/game'
+import type { DailyPuzzle, Submission } from '../types/game'
 
 const cache = new Map<string, DailyPuzzle>()
 
@@ -10,7 +10,7 @@ export async function getPuzzleByDateFromSupabase(date: string): Promise<DailyPu
     .from('connection_puzzles')
     .select('*')
     .eq('date', date)
-    .single()
+    .maybeSingle()
 
   if (error || !data) return null
 
@@ -34,14 +34,53 @@ export async function getAllPublishedDatesFromSupabase(): Promise<string[]> {
   return data.map((row: { date: string }) => row.date)
 }
 
+export async function getSubmissions(): Promise<Submission[]> {
+  const { data, error } = await supabase
+    .from('connection_puzzle_submissions')
+    .select('*')
+    .order('submitted_at', { ascending: false })
+
+  if (error || !data) return []
+  return data as Submission[]
+}
+
+export async function acceptSubmission(submission: Submission): Promise<{ error: string | null }> {
+  const { error: insertError } = await supabase
+    .from('connection_puzzles')
+    .insert({
+      date: submission.proposed_date,
+      authors: submission.authors,
+      categories: submission.categories,
+    })
+
+  if (insertError) return { error: insertError.message }
+
+  const { error: updateError } = await supabase
+    .from('connection_puzzle_submissions')
+    .update({ reviewed_at: new Date().toISOString() })
+    .eq('id', submission.id)
+
+  return { error: updateError?.message ?? null }
+}
+
+export async function declineSubmission(id: string, rejectionNotes: string): Promise<{ error: string | null }> {
+  const { error } = await supabase
+    .from('connection_puzzle_submissions')
+    .update({
+      reviewed_at: new Date().toISOString(),
+      rejection_notes: rejectionNotes,
+    })
+    .eq('id', id)
+
+  return { error: error?.message ?? null }
+}
+
 export async function submitPuzzle(params: {
   authors: { name: string }[]
   categories: { name: string; words: string[]; difficulty: number }[]
   proposedDate: string
-  userId: string
 }): Promise<{ error: string | null }> {
   const { error } = await supabase.from('connection_puzzle_submissions').insert({
-    submitted_by: params.userId,
     proposed_date: params.proposedDate,
     authors: params.authors,
     categories: params.categories,

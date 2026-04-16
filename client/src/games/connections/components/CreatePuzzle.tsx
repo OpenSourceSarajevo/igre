@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from "react";
-import { Download } from "lucide-react";
+import { Send } from "lucide-react";
 import GameControlButton from "./GameControlButton";
 import { difficultyColors } from "../utils/colors";
 import { cn } from "@/utils/classNameUtils";
+import { submitPuzzle } from "../utils/supabasePuzzleUtils";
 
 type Difficulty = 1 | 2 | 3 | 4;
 
@@ -40,6 +41,8 @@ export function CreatePuzzle() {
   );
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const updateCategoryName = (i: number, value: string) =>
     setCategories((prev) =>
@@ -69,7 +72,7 @@ export function CreatePuzzle() {
     return e;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
@@ -77,27 +80,25 @@ export function CreatePuzzle() {
       return;
     }
     setErrors({});
+    setSubmitError(null);
+    setSubmitting(true);
 
-    const puzzle = {
-      $schema: "./puzzle.schema.json",
+    const { error } = await submitPuzzle({
       authors: [{ name: authorName.trim() }],
-      date,
+      proposedDate: date,
       categories: categories.map((c) => ({
         name: c.name.trim(),
         words: c.words.map((w) => w.trim()),
         difficulty: c.difficulty,
       })),
-    };
-
-    const blob = new Blob([JSON.stringify(puzzle, null, 2)], {
-      type: "application/json",
     });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${date}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+
+    setSubmitting(false);
+
+    if (error) {
+      setSubmitError(error);
+      return;
+    }
 
     setSubmitted(true);
   };
@@ -108,20 +109,18 @@ export function CreatePuzzle() {
     setCategories(DIFFICULTIES.map((d) => emptyCategory(d.value)));
     setErrors({});
     setSubmitted(false);
+    setSubmitError(null);
   };
 
   if (submitted) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center px-4">
-        <Download size={48} className="text-app-text opacity-50" />
+        <Send size={48} className="text-app-text opacity-50" />
         <h2 className="text-[1.8rem] font-bold text-app-text">
-          Konekcije preuzete!
+          Konekcije poslane!
         </h2>
         <p className="text-app-text opacity-60 max-w-sm leading-relaxed">
-          Fajl <strong>{date}.json</strong> je preuzet. Dodajte ga u{" "}
-          <code className="text-xs bg-tile-bg px-1.5 py-0.5 rounded border border-header-border">
-            src/games/connections/data/puzzles/
-          </code>
+          Vaš prijedlog za <strong>{date}</strong> je uspješno poslan na pregled.
         </p>
         <GameControlButton variant="primary" onClick={handleReset}>
           Kreiraj nove konekcije
@@ -138,7 +137,7 @@ export function CreatePuzzle() {
             Kreiraj Konekcije
           </h1>
           <p className="font-inherit mt-3 font-normal text-app-text opacity-70 text-sm sm:text-base">
-            4 kategorije × 4 riječi. Fajl se preuzima po završetku.
+            4 kategorije × 4 riječi. Prijedlog se šalje na pregled.
           </p>
         </header>
 
@@ -247,11 +246,15 @@ export function CreatePuzzle() {
             );
           })}
 
+          {submitError && (
+            <p className="text-red-400 text-sm text-center">{submitError}</p>
+          )}
+
           <div className="flex justify-center mt-2">
-            <GameControlButton variant="primary" type="submit">
+            <GameControlButton variant="primary" type="submit" disabled={submitting}>
               <span className="flex items-center gap-2">
-                <Download size={15} />
-                Preuzmi JSON
+                <Send size={15} />
+                {submitting ? "Slanje..." : "Pošalji prijedlog"}
               </span>
             </GameControlButton>
           </div>
