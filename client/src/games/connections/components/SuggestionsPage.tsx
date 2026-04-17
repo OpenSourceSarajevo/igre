@@ -166,7 +166,8 @@ export function SuggestionsPage() {
               const toggleExpanded = () =>
                 setExpandedIds((prev) => {
                   const next = new Set(prev);
-                  next.has(submission.id) ? next.delete(submission.id) : next.add(submission.id);
+                  if (next.has(submission.id)) next.delete(submission.id);
+                  else next.add(submission.id);
                   return next;
                 });
 
