@@ -66,7 +66,7 @@ export function Header({
           onClick={() => setIsArchiveOpen(false)}
         >
           <div
-            className="w-full max-w-[320px] bg-header-bg h-screen p-6 shadow-[4px_0_15px_rgba(0,0,0,0.2)] overflow-y-auto animate-slide-in border-r border-header-border [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:bg-header-border [&::-webkit-scrollbar-thumb]:rounded-[10px]"
+            className="w-full max-w-[320px] bg-header-bg h-dvh p-6 shadow-[4px_0_15px_rgba(0,0,0,0.2)] overflow-y-auto animate-slide-in border-r border-header-border [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:bg-header-border [&::-webkit-scrollbar-thumb]:rounded-[10px]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-header-border">

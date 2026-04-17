@@ -22,7 +22,7 @@ export const WordGrid = ({
         "grid grid-cols-4",
         "gap-2 sm:gap-3",
         "mx-auto",
-        "w-[95vw] sm:w-[630px]",
+        "w-full sm:w-[630px]",
       )}
     >
       {words.map((word) => (

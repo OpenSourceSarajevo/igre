@@ -13,7 +13,7 @@ export function CategoryDisplay({ categories }: CategoryDisplayProps) {
       className={cn(
         "flex flex-col gap-2 sm:gap-3",
         "mx-auto mb-4 sm:mb-6",
-        "w-[95vw] sm:w-[630px]",
+        "w-full sm:w-[630px]",
       )}
     >
       {categories.map((category, index) => (

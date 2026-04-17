@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Check, X, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Check, X, CheckCircle, XCircle, Clock, ChevronDown } from "lucide-react";
 import GameControlButton from "./GameControlButton";
 import { difficultyColors } from "../utils/colors";
 import {
@@ -31,6 +31,7 @@ export function SuggestionsPage() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("pending");
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [decliningId, setDecliningId] = useState<string | null>(null);
   const [rejectionNotes, setRejectionNotes] = useState("");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -160,6 +161,14 @@ export function SuggestionsPage() {
                 submission.rejection_notes === null;
               const isDeclining = decliningId === submission.id;
               const isActing = actionLoading === submission.id;
+              const isExpanded = expandedIds.has(submission.id);
+
+              const toggleExpanded = () =>
+                setExpandedIds((prev) => {
+                  const next = new Set(prev);
+                  next.has(submission.id) ? next.delete(submission.id) : next.add(submission.id);
+                  return next;
+                });
 
               return (
                 <div
@@ -167,7 +176,10 @@ export function SuggestionsPage() {
                   className="border border-header-border rounded-2xl overflow-hidden"
                 >
                   {/* Card header */}
-                  <div className="px-5 py-4 flex flex-wrap gap-3 items-start justify-between border-b border-header-border bg-tile-bg">
+                  <button
+                    className="w-full px-5 py-4 flex flex-wrap gap-3 items-start justify-between bg-tile-bg cursor-pointer border-none text-left"
+                    onClick={toggleExpanded}
+                  >
                     <div>
                       <p className="text-app-text font-bold text-lg leading-tight">
                         {submission.proposed_date}
@@ -178,14 +190,22 @@ export function SuggestionsPage() {
                         </p>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-app-text opacity-50">
-                      <Clock size={13} />
-                      {formatDate(submission.submitted_at)}
+                    <div className="flex items-center gap-3 text-xs text-app-text opacity-50">
+                      <span className="flex items-center gap-1">
+                        <Clock size={13} />
+                        {formatDate(submission.submitted_at)}
+                      </span>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                      />
                     </div>
-                  </div>
+                  </button>
 
+                  {isExpanded && (
+                    <>
                   {/* Categories */}
-                  <div className="p-4 grid grid-cols-2 gap-3 sm:grid-cols-1">
+                  <div className="p-4 grid grid-cols-2 gap-3 sm:grid-cols-1 border-t border-header-border">
                     {[...submission.categories]
                       .sort((a, b) => a.difficulty - b.difficulty)
                       .map((cat, i) => (
@@ -326,6 +346,8 @@ export function SuggestionsPage() {
                       </div>
                     )}
                   </div>
+                    </>
+                  )}
                 </div>
               );
             })}
