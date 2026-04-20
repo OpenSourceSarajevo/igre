@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Check, X, CheckCircle, XCircle, Clock, ChevronDown, Pencil } from "lucide-react";
 import GameControlButton from "./GameControlButton";
 import { difficultyColors } from "../utils/colors";
@@ -46,8 +46,10 @@ export function SuggestionsPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [publishedPuzzles, setPublishedPuzzles] = useState<DailyPuzzle[]>([]);
-  const [publishedLoading, setPublishedLoading] = useState(false);
+  const [publishedPuzzles, setPublishedPuzzles] = useState<DailyPuzzle[] | null>(null);
+  const [publishedHasMore, setPublishedHasMore] = useState(true);
+  const [publishedFetching, setPublishedFetching] = useState(false);
+  const publishedOffset = useRef(0);
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editDraft, setEditDraft] = useState<EditDraft | null>(null);
@@ -61,14 +63,27 @@ export function SuggestionsPage() {
     });
   }, []);
 
+  const PAGE_SIZE = 5;
+
   useEffect(() => {
-    if (tab !== "published") return;
-    setPublishedLoading(true);
-    getPublishedPuzzles().then((data) => {
+    if (tab !== "published" || publishedPuzzles !== null) return;
+    getPublishedPuzzles(PAGE_SIZE, 0).then((data) => {
       setPublishedPuzzles(data);
-      setPublishedLoading(false);
+      setPublishedHasMore(data.length === PAGE_SIZE);
+      publishedOffset.current = PAGE_SIZE;
     });
-  }, [tab]);
+  }, [tab, publishedPuzzles]);
+
+  const handleLoadMore = () => {
+    if (publishedFetching) return;
+    setPublishedFetching(true);
+    getPublishedPuzzles(PAGE_SIZE, publishedOffset.current).then((data) => {
+      setPublishedPuzzles((prev) => [...(prev ?? []), ...data]);
+      setPublishedHasMore(data.length === PAGE_SIZE);
+      setPublishedFetching(false);
+      publishedOffset.current += PAGE_SIZE;
+    });
+  };
 
   const pending = submissions.filter((s) => s.reviewed_at === null);
   const reviewed = submissions.filter((s) => s.reviewed_at !== null);
@@ -239,7 +254,7 @@ export function SuggestionsPage() {
     }
     setEditSaving(true);
     setEditErrors((prev) => ({ ...prev, [id]: "" }));
-    const puzzle = publishedPuzzles.find((p) => p.id === id);
+    const puzzle = publishedPuzzles?.find((p) => p.id === id);
     const { error } = await updatePublishedPuzzle(id, {
       date: editDraft.date,
       authors: puzzle?.authors ?? [],
@@ -253,7 +268,7 @@ export function SuggestionsPage() {
     invalidatePuzzleCache(oldDate);
     if (editDraft.date !== oldDate) invalidatePuzzleCache(editDraft.date);
     setPublishedPuzzles((prev) =>
-      prev.map((p) =>
+      (prev ?? []).map((p) =>
         p.id === id
           ? { ...p, date: editDraft.date, categories: editDraft.categories as Category[] }
           : p,
@@ -409,7 +424,7 @@ export function SuggestionsPage() {
 
         {/* Published tab */}
         {tab === "published" ? (
-          publishedLoading ? (
+          publishedPuzzles === null ? (
             <div className="flex justify-center py-16">
               <Clock size={32} className="text-app-text opacity-30 animate-pulse" />
             </div>
@@ -519,6 +534,17 @@ export function SuggestionsPage() {
                   </div>
                 );
               })}
+              {publishedHasMore && (
+                <div className="flex justify-center pt-2 pb-4">
+                  <GameControlButton
+                    variant="default"
+                    onClick={handleLoadMore}
+                    disabled={publishedFetching}
+                  >
+                    {publishedFetching ? "Učitavanje..." : "Učitaj još"}
+                  </GameControlButton>
+                </div>
+              )}
             </div>
           )
         ) : /* Pending / Reviewed tabs */

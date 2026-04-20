@@ -100,11 +100,12 @@ export async function updateSubmission(id: string, data: {
   return { error: error?.message ?? null }
 }
 
-export async function getPublishedPuzzles(): Promise<DailyPuzzle[]> {
+export async function getPublishedPuzzles(limit = 5, offset = 0): Promise<DailyPuzzle[]> {
   const { data, error } = await supabase
     .from('connection_puzzles')
     .select('*')
     .order('date', { ascending: false })
+    .range(offset, offset + limit - 1)
   if (error || !data) return []
   return data as DailyPuzzle[]
 }
