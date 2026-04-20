@@ -88,3 +88,39 @@ export async function submitPuzzle(params: {
 
   return { error: error?.message ?? null }
 }
+
+export async function updateSubmission(id: string, data: {
+  proposed_date: string
+  categories: { name: string; words: string[]; difficulty: number }[]
+}): Promise<{ error: string | null }> {
+  const { error } = await supabase
+    .from('connection_puzzle_submissions')
+    .update(data)
+    .eq('id', id)
+  return { error: error?.message ?? null }
+}
+
+export async function getPublishedPuzzles(): Promise<DailyPuzzle[]> {
+  const { data, error } = await supabase
+    .from('connection_puzzles')
+    .select('*')
+    .order('date', { ascending: false })
+  if (error || !data) return []
+  return data as DailyPuzzle[]
+}
+
+export async function updatePublishedPuzzle(id: string, data: {
+  date: string
+  authors: { name: string }[]
+  categories: { name: string; words: string[]; difficulty: number }[]
+}): Promise<{ error: string | null }> {
+  const { error } = await supabase
+    .from('connection_puzzles')
+    .update(data)
+    .eq('id', id)
+  return { error: error?.message ?? null }
+}
+
+export function invalidatePuzzleCache(date: string) {
+  cache.delete(date)
+}
